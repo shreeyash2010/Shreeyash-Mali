@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import logoImg from './assets/logo-modified.png';
 import githubAvatarImg from './assets/github-avatar.png';
 import { 
@@ -1014,6 +1015,7 @@ export default function App() {
         </div>
       </footer>
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
