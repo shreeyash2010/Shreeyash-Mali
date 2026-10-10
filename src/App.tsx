@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { VisitorCounter } from './components/VisitorCounter';
 import logoImg from './assets/logo-modified.png';
 import githubAvatarImg from './assets/github-avatar.png';
 import { 
@@ -983,7 +984,10 @@ export default function App() {
       {/* Site Footer */}
       <footer className="border-t-4 border-[#e8662a] bg-[#fbf8f3] py-8 text-[#6a6258] text-sm">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Shreeyash Mali · <a href={`mailto:${CONTACT_EMAIL}`} className="hover:underline">{CONTACT_EMAIL}</a></p>
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+            <p>© {new Date().getFullYear()} Shreeyash Mali · <a href="https://shreeyash-mali-zeta.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">shreeyash-mali-zeta.vercel.app</a></p>
+            <VisitorCounter />
+          </div>
           <div className="flex items-center gap-6">
             <a 
               href="https://www.linkedin.com/in/shreeyash-mali-13497b22b/" 

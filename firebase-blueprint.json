@@ -2,19 +2,19 @@
   "entities": {
     "visitorCounter": {
       "title": "Visitor Counter",
-      "description": "Persistent portfolio view counter",
+      "description": "Persistent portfolio visitor counter",
       "type": "object",
       "properties": {
-        "count": {
+        "visitor_count": {
           "type": "integer",
-          "description": "Total number of portfolio views"
+          "description": "Total number of visitors who have viewed the portfolio"
         },
         "updatedAt": {
           "type": "string",
           "description": "Last updated ISO timestamp"
         }
       },
-      "required": ["count"]
+      "required": ["visitor_count"]
     }
   },
   "firestore": {
