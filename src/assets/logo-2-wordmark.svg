@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 210" width="760" height="210">
+  <!-- Code Icon Squircle on the Left -->
+  <g transform="translate(10, 15)">
+    <rect x="0" y="0" width="180" height="180" rx="52" fill="#e8662a"/>
+    <!-- < / > glyphs inside -->
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <!-- < -->
+      <path d="M 82 72 L 54 90 L 82 108" fill="none" stroke="#ffffff" stroke-width="19"/>
+      <!-- / -->
+      <path d="M 116 66 L 90 114" fill="none" stroke="#1f1b16" stroke-width="19"/>
+      <!-- > -->
+      <path d="M 124 72 L 152 90 L 124 108" fill="none" stroke="#ffffff" stroke-width="19"/>
+    </g>
+  </g>
+
+  <!-- Typography Brand Text on the Right -->
+  <text 
+    x="224" 
+    y="120" 
+    font-family="'Fraunces', Georgia, serif" 
+    font-weight="900" 
+    font-size="78" 
+    letter-spacing="-0.02em" 
+    fill="#1f1b16"
+  >Shreeyash Mali</text>
+
+  <!-- Subtitle Kicker -->
+  <text 
+    x="226" 
+    y="166" 
+    font-family="'DM Sans', system-ui, sans-serif" 
+    font-weight="800" 
+    font-size="21" 
+    letter-spacing="0.24em" 
+    fill="#e8662a"
+  >FULL-STACK WEB DEVELOPER</text>
+</svg>

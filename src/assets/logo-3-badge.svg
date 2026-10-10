@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <!-- Top arc path for FULL-STACK WEB DEVELOPER (clockwise) -->
+    <path id="topArcPath" d="M 85 300 A 215 215 0 0 1 515 300" fill="none"/>
+    <!-- Bottom arc path for SHREEYASH MALI (clockwise) -->
+    <path id="bottomArcPath" d="M 515 300 A 215 215 0 0 1 85 300" fill="none"/>
+  </defs>
+
+  <!-- Outer Dark Midnight Disc -->
+  <circle cx="300" cy="300" r="290" fill="#1f1b16"/>
+
+  <!-- Dotted Stitched Circle Ring -->
+  <circle cx="300" cy="300" r="268" fill="none" stroke="#e8662a" stroke-width="4.5" stroke-dasharray="1 13" stroke-linecap="round"/>
+
+  <!-- Top Arched Text: FULL-STACK WEB DEVELOPER -->
+  <text fill="#ffffff" font-family="'DM Sans', system-ui, sans-serif" font-weight="800" font-size="27" letter-spacing="0.22em">
+    <textPath href="#topArcPath" startOffset="50%" text-anchor="middle">
+      FULL-STACK WEB DEVELOPER
+    </textPath>
+  </text>
+
+  <!-- Bottom Arched Text: SHREEYASH MALI -->
+  <text fill="#e8662a" font-family="'DM Sans', system-ui, sans-serif" font-weight="800" font-size="30" letter-spacing="0.24em">
+    <textPath href="#bottomArcPath" startOffset="50%" text-anchor="middle">
+      SHREEYASH MALI
+    </textPath>
+  </text>
+
+  <!-- Separator Dots -->
+  <circle cx="78" cy="300" r="7" fill="#e8662a"/>
+  <circle cx="522" cy="300" r="7" fill="#e8662a"/>
+
+  <!-- Inner Terracotta Disc -->
+  <circle cx="300" cy="300" r="170" fill="#e8662a"/>
+
+  <!-- Center Monogram S and < > brackets -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left bracket < -->
+    <path d="M 212 265 L 180 300 L 212 335" fill="none" stroke="#fde8d8" stroke-width="20"/>
+    <!-- Right bracket > -->
+    <path d="M 388 265 L 420 300 L 388 335" fill="none" stroke="#fde8d8" stroke-width="20"/>
+  </g>
+
+  <!-- Large Center S -->
+  <text 
+    x="300" 
+    y="388" 
+    text-anchor="middle" 
+    font-family="'Fraunces', Georgia, serif" 
+    font-weight="900" 
+    font-size="235" 
+    fill="#ffffff"
+  >S</text>
+</svg>

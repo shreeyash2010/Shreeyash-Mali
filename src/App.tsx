@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { VisitorCounter } from './components/VisitorCounter';
+import logoMonogram from './assets/logo-monogram.svg';
+import logoWordmark from './assets/logo-2-wordmark.svg';
 import logoImg from './assets/logo-modified.png';
 import githubAvatarImg from './assets/github-avatar.png';
 import { 
@@ -121,6 +123,8 @@ export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'all' | 'fullstack' | 'client' | 'frontend'>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeLogo, setActiveLogo] = useState<'monogram' | 'wordmark'>('monogram');
+  const [brandModalOpen, setBrandModalOpen] = useState(false);
 
   // Contact form state
   const [formName, setFormName] = useState('');
@@ -177,14 +181,11 @@ export default function App() {
       <header className="sticky top-0 z-40 bg-[#fbf8f3]/90 backdrop-blur-md border-b border-[#e8e1d6] transition-all">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex items-center justify-between h-16">
           <a href="#top" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8662a] rounded-lg p-1">
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#e8662a] bg-[#fde8d8] flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#e8662a] bg-[#1f1b16] flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
               <img 
-                src={logoImg} 
-                alt="Shreeyash Mali Logo" 
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = githubAvatarImg;
-                }}
+                src={logoMonogram} 
+                alt="Shreeyash Mali Seal Monogram" 
+                className="w-full h-full object-contain"
               />
             </div>
             <div className="flex flex-col">
@@ -217,6 +218,14 @@ export default function App() {
             >
               Work
             </a>
+            <button
+              type="button"
+              onClick={() => setBrandModalOpen(true)}
+              className="text-[#6a6258] hover:text-[#e8662a] font-medium text-[0.97rem] transition-colors flex items-center gap-1.5"
+            >
+              <Sparkles size={14} className="text-[#e8662a]" />
+              <span>Brand Kit</span>
+            </button>
             <a 
               href="#contact" 
               className="text-[#1f1b16] border-[1.5px] border-[#1f1b16] px-4 py-1.5 rounded-full font-medium text-[0.95rem] hover:bg-[#1f1b16] hover:text-[#fbf8f3] transition-all"
@@ -262,6 +271,13 @@ export default function App() {
             >
               Work
             </a>
+            <button 
+              type="button"
+              onClick={() => { setMobileMenuOpen(false); setBrandModalOpen(true); }}
+              className="block py-2 text-[#e8662a] hover:text-[#c9501a] font-semibold text-left w-full"
+            >
+              Brand Kit (New Logos)
+            </button>
             <div className="pt-2 border-t border-[#e8e1d6]/60 flex items-center justify-between">
               <a 
                 href="#contact" 
@@ -394,17 +410,45 @@ export default function App() {
               </svg>
             </div>
 
-            {/* Official Logo Display */}
-            <div className="relative z-10 p-3 bg-white/80 backdrop-blur-xs rounded-full border-2 border-[#e8662a] shadow-lg">
-              <div className="w-[180px] sm:w-[210px] h-[180px] sm:h-[210px] rounded-full overflow-hidden bg-white flex items-center justify-center p-2">
-                <img 
-                  src={logoImg} 
-                  alt="Shreeyash Mali Official Logo" 
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = githubAvatarImg;
-                  }}
-                />
+            {/* New Official Logo Display & Interactive Switcher */}
+            <div className="relative z-10 flex flex-col items-center gap-4">
+              <div className="p-3 bg-white/90 backdrop-blur-xs rounded-full border-2 border-[#e8662a] shadow-xl hover:scale-105 transition-transform duration-300">
+                <div className="w-[190px] sm:w-[220px] h-[190px] sm:h-[220px] rounded-full overflow-hidden flex items-center justify-center p-2 bg-[#fbf8f3]">
+                  <img 
+                    src={activeLogo === 'monogram' ? logoMonogram : logoWordmark} 
+                    alt={`Shreeyash Mali ${activeLogo} Logo`} 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+
+              {/* Logo Style Switcher Controls */}
+              <div className="flex items-center gap-1 p-1 bg-white/95 backdrop-blur-md border border-[#e8e1d6] rounded-full shadow-sm text-xs">
+                <button
+                  type="button"
+                  onClick={() => setActiveLogo('monogram')}
+                  className={`px-3.5 py-1 rounded-full font-semibold transition-all ${
+                    activeLogo === 'monogram' ? 'bg-[#1f1b16] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  }`}
+                >
+                  Monogram Seal
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveLogo('wordmark')}
+                  className={`px-3.5 py-1 rounded-full font-semibold transition-all ${
+                    activeLogo === 'wordmark' ? 'bg-[#1f1b16] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  }`}
+                >
+                  Wordmark
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBrandModalOpen(true)}
+                  className="px-2.5 py-1 text-[11px] font-bold text-[#e8662a] hover:text-[#c9501a] border-l border-[#e8e1d6] pl-2.5 transition-colors"
+                >
+                  Brand Kit
+                </button>
               </div>
             </div>
           </div>
@@ -981,6 +1025,112 @@ export default function App() {
         </div>
       )}
 
+      {/* Brand Kit / New Logos Modal */}
+      {brandModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150 overflow-y-auto"
+          onClick={() => setBrandModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="brand-modal-title"
+        >
+          <div 
+            className="bg-[#fbf8f3] max-w-2xl w-full rounded-2xl border border-[#e8e1d6] p-6 sm:p-8 shadow-2xl space-y-6 relative my-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setBrandModalOpen(false)}
+              className="absolute top-5 right-5 p-1.5 rounded-full text-[#6a6258] hover:text-[#1f1b16] hover:bg-[#e8e1d6]/50 transition-colors"
+              aria-label="Close dialog"
+            >
+              <X size={20} />
+            </button>
+
+            <div className="space-y-1">
+              <span className="font-serif-display text-sm font-bold text-[#e8662a]">
+                Official Brand Identity
+              </span>
+              <h3 id="brand-modal-title" className="font-serif-display text-2xl font-bold text-[#1f1b16]">
+                Shreeyash Mali Logo Suite
+              </h3>
+              <p className="text-sm text-[#6a6258]">
+                Three bespoke brand marks designed with warm terracotta typography, modern serif styling, and developer code symbolism.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+              {/* Logo 1: Monogram (Seal Badge) */}
+              <div className={`p-5 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'monogram' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
+                <div className="w-28 h-28 rounded-full overflow-hidden flex items-center justify-center p-2 bg-[#fbf8f3] border border-[#e8e1d6]/60 shadow-xs">
+                  <img src={logoMonogram} alt="Monogram Seal Logo" className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">01. Official Monogram Seal</h4>
+                  <p className="text-xs text-[#6a6258] mt-1">Signature circular emblem with arched typography, stitched ring, and center &lt; S &gt; mark.</p>
+                </div>
+                <div className="flex gap-2 w-full pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setActiveLogo('monogram')}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'monogram' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
+                  >
+                    {activeLogo === 'monogram' ? 'Active Hero Logo' : 'Set as Hero Logo'}
+                  </button>
+                  <a
+                    href="/image/logo-monogram.svg"
+                    download="shreeyash-mali-monogram.svg"
+                    className="p-2 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
+                    title="Download SVG"
+                  >
+                    <ArrowUpRight size={16} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Logo 2: Wordmark */}
+              <div className={`p-5 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'wordmark' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
+                <div className="w-full h-28 rounded-2xl overflow-hidden flex items-center justify-center p-3 bg-[#fbf8f3] border border-[#e8e1d6]/60 shadow-xs">
+                  <img src={logoWordmark} alt="Wordmark Logo" className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">02. Horizontal Wordmark</h4>
+                  <p className="text-xs text-[#6a6258] mt-1">Horizontal brand mark with &lt; / &gt; icon, full name serif typography, and developer title.</p>
+                </div>
+                <div className="flex gap-2 w-full pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setActiveLogo('wordmark')}
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'wordmark' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
+                  >
+                    {activeLogo === 'wordmark' ? 'Active Hero Logo' : 'Set as Hero Logo'}
+                  </button>
+                  <a
+                    href="/image/logo-2-wordmark.svg"
+                    download="shreeyash-mali-wordmark.svg"
+                    className="p-2 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
+                    title="Download SVG"
+                  >
+                    <ArrowUpRight size={16} />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-[#e8e1d6] flex items-center justify-between text-xs text-[#6a6258]">
+              <span>Vector assets ready for use across web, GitHub, and resumes</span>
+              <button
+                type="button"
+                onClick={() => setBrandModalOpen(false)}
+                className="px-5 py-2 rounded-full font-bold bg-[#1f1b16] text-[#fbf8f3] hover:bg-[#e8662a] transition-colors"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Site Footer */}
       <footer className="border-t-4 border-[#e8662a] bg-[#fbf8f3] py-8 text-[#6a6258] text-sm">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -989,6 +1139,15 @@ export default function App() {
             <VisitorCounter />
           </div>
           <div className="flex items-center gap-6">
+            <button
+              type="button"
+              onClick={() => setBrandModalOpen(true)}
+              className="hover:text-[#e8662a] flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Sparkles size={14} className="text-[#e8662a]" />
+              <span>Brand Kit</span>
+            </button>
+            <span>·</span>
             <a 
               href="https://www.linkedin.com/in/shreeyash-mali-13497b22b/" 
               target="_blank" 
