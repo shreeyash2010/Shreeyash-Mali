@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "visitorCounter": {
+      "title": "Visitor Counter",
+      "description": "Persistent portfolio view counter",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "description": "Total number of portfolio views"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last updated ISO timestamp"
+        }
+      },
+      "required": ["count"]
+    }
+  },
+  "firestore": {
+    "/analytics/{docId}": {
+      "schema": "visitorCounter",
+      "description": "Collection storing aggregated site analytics and pageview counts"
+    }
+  }
+}
