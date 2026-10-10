@@ -1,0 +1,1016 @@
+import React, { useState } from 'react';
+import logoImg from './assets/logo-modified.png';
+import githubAvatarImg from './assets/github-avatar.png';
+import { 
+  ArrowUpRight, 
+  Github, 
+  Linkedin, 
+  Mail, 
+  Menu, 
+  X, 
+  Copy, 
+  Check, 
+  ExternalLink, 
+  Code2, 
+  Sparkles, 
+  Zap, 
+  Laptop, 
+  Layers, 
+  Eye, 
+  Send,
+  Building2,
+  Globe,
+  MonitorSmartphone
+} from 'lucide-react';
+
+interface Project {
+  id: string;
+  number: string;
+  title: string;
+  tagline: string;
+  category: 'all' | 'fullstack' | 'frontend' | 'client';
+  description: string;
+  longDescription: string;
+  tags: string[];
+  metrics?: string;
+  githubUrl: string;
+  liveUrl?: string;
+  keyFeatures: string[];
+}
+
+const EXTRACTED_PROJECTS: Project[] = [
+  {
+    id: 'mohalkar-architects-react',
+    number: '01',
+    title: 'Mohalkar Architects & Planners',
+    tagline: 'Modern enterprise architecture platform built with React 19 & Framer Motion.',
+    category: 'fullstack',
+    description: 'A full-stack architecture suite featuring interactive project typologies, interactive cost estimator modal, administrative control panels, and custom PDF report exports.',
+    longDescription: 'Engineered as a high-performance web platform for Mohalkar Architects & Planners. Showcases residential bungalows, 3-star hotels, industrial sheds, and urban planning schemes with fluid transitions, preloaded typologies, client inquiry flows, and Vercel analytics integration.',
+    tags: ['React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'jsPDF', 'Vercel Analytics'],
+    metrics: 'React 19 + Interactive Cost Estimator',
+    githubUrl: 'https://github.com/shreeyash2010/Mohalkar-Architects',
+    keyFeatures: [
+      'Interactive architecture project categorizer (Residential, Commercial, Industrial, 3D)',
+      'Built-in construction cost estimator modal with dynamic calculations',
+      'Client inquiry management & PDF specification generator using jsPDF',
+      'Fluid animations powered by Framer Motion and optimized image preloading'
+    ]
+  },
+  {
+    id: 'mohalkar-architects-planners-portal',
+    number: '02',
+    title: 'Mohalkar Architects & Planners Portal',
+    tagline: 'Production multi-page architecture firm website deployed on Vercel.',
+    category: 'client',
+    description: 'Multi-page firm portal presenting architectural expertise, portfolio galleries, comprehensive service breakdowns, and dedicated enquiry pipelines.',
+    longDescription: 'Developed to showcase comprehensive architectural projects across Maharashtra. Structured with clean semantic HTML5, Bootstrap 5 responsiveness, interactive JavaScript gallery filters, and deployed to production with custom domain setup on Vercel.',
+    tags: ['HTML5', 'Bootstrap 5', 'JavaScript', 'Responsive UI', 'Vercel'],
+    metrics: 'Live Production Client Site',
+    githubUrl: 'https://github.com/shreeyash2010/Mohalkar_Architects_Planners',
+    liveUrl: 'https://mohalkar-architects-planners.vercel.app',
+    keyFeatures: [
+      'Multi-page architecture showcase with deep service breakdowns',
+      'Interactive project filtering across urban design and commercial domains',
+      'Mobile-optimized navigation with touch-friendly navigation drawer',
+      'Integrated enquiry forms and contact routes for prospective clients'
+    ]
+  },
+  {
+    id: 'shreeyash-official-site',
+    number: '03',
+    title: 'Official Personal Website (V1)',
+    tagline: 'The foundational portfolio and personal brand website.',
+    category: 'frontend',
+    description: 'Shreeyash\'s inaugural official personal website introducing his coding journey, design and development skills, brand identity, and client contact channels.',
+    longDescription: 'The starting point of Shreeyash\'s developer presence on the web. Built with hand-crafted CSS, custom branding assets, Google Search verification, and responsive layout styling, deployed live to Vercel.',
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'Brand Identity', 'Google Verification'],
+    metrics: 'Foundational Web Release',
+    githubUrl: 'https://github.com/shreeyash2010/Offical-Site',
+    liveUrl: 'https://shreeyash-mali.vercel.app',
+    keyFeatures: [
+      'Original brand logo and identity design creation',
+      'Responsive full-page layout with custom animations and graphics',
+      'Search engine registration and Google site ownership verification',
+      'Direct visitor inquiry integration with dedicated contact routing'
+    ]
+  }
+];
+
+const SKILLS = [
+  { name: 'HTML5 Semantic Markup', group: 'Front-end' },
+  { name: 'CSS3 & Modern Layouts', group: 'Front-end' },
+  { name: 'JavaScript (ES6+)', group: 'Front-end' },
+  { name: 'TypeScript', group: 'Front-end' },
+  { name: 'React 19 & Next.js', group: 'Front-end' },
+  { name: 'Tailwind CSS', group: 'Front-end' },
+  { name: 'Bootstrap 5', group: 'Front-end' },
+  { name: 'Responsive Design', group: 'Architecture' },
+  { name: 'Node.js & Express', group: 'Back-end' },
+  { name: 'RESTful APIs', group: 'Back-end' },
+  { name: 'Git & GitHub', group: 'Workflow' },
+  { name: 'Web Performance Optimization', group: 'Architecture' }
+];
+
+export default function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<'all' | 'fullstack' | 'client' | 'frontend'>('all');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Contact form state
+  const [formName, setFormName] = useState('');
+  const [formEmail, setFormEmail] = useState('');
+  const [formMessage, setFormMessage] = useState('');
+  const [formStatus, setFormStatus] = useState<{ text: string; isError: boolean } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // New official email as requested
+  const CONTACT_EMAIL = 'shreeyash.mali.in@gmail.com';
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText(CONTACT_EMAIL);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = formName.trim();
+    const email = formEmail.trim();
+    const message = formMessage.trim();
+
+    if (!name || !message || !/^\S+@\S+\.\S+$/.test(email)) {
+      setFormStatus({
+        text: 'Please fill in your name, a valid email, and your message.',
+        isError: true
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormStatus({
+      text: 'Opening your email client... Just hit send to reach Shreeyash!',
+      isError: false
+    });
+
+    const subject = encodeURIComponent(`Website message from ${name}`);
+    const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
+
+    setTimeout(() => {
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      setIsSubmitting(false);
+    }, 600);
+  };
+
+  const filteredProjects = activeCategory === 'all' 
+    ? EXTRACTED_PROJECTS 
+    : EXTRACTED_PROJECTS.filter(p => p.category === activeCategory);
+
+  return (
+    <div className="min-h-screen text-[#1f1b16] selection:bg-[#fde8d8] selection:text-[#c9501a]">
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-40 bg-[#fbf8f3]/90 backdrop-blur-md border-b border-[#e8e1d6] transition-all">
+        <div className="w-[min(1080px,100%-40px)] mx-auto flex items-center justify-between h-16">
+          <a href="#top" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8662a] rounded-lg p-1">
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#e8662a] bg-[#fde8d8] flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+              <img 
+                src={logoImg} 
+                alt="Shreeyash Mali Logo" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = githubAvatarImg;
+                }}
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-[1.05rem] tracking-tight leading-tight group-hover:text-[#e8662a] transition-colors">
+                Shreeyash Mali
+              </span>
+              <span className="text-xs text-[#6a6258] font-medium hidden sm:inline-block">
+                Full-Stack Web Developer
+              </span>
+            </div>
+          </a>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-7">
+            <a 
+              href="#about" 
+              className="text-[#6a6258] hover:text-[#1f1b16] font-medium text-[0.97rem] transition-colors"
+            >
+              About
+            </a>
+            <a 
+              href="#skills" 
+              className="text-[#6a6258] hover:text-[#1f1b16] font-medium text-[0.97rem] transition-colors"
+            >
+              Skills
+            </a>
+            <a 
+              href="#work" 
+              className="text-[#6a6258] hover:text-[#1f1b16] font-medium text-[0.97rem] transition-colors"
+            >
+              Work
+            </a>
+            <a 
+              href="#contact" 
+              className="text-[#1f1b16] border-[1.5px] border-[#1f1b16] px-4 py-1.5 rounded-full font-medium text-[0.95rem] hover:bg-[#1f1b16] hover:text-[#fbf8f3] transition-all"
+            >
+              Contact
+            </a>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button 
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex items-center gap-2 border-[1.5px] border-[#e8e1d6] bg-white/70 px-3 py-1.5 rounded-lg text-sm font-semibold hover:border-[#1f1b16] transition-colors"
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            <span>Menu</span>
+          </button>
+        </div>
+
+        {/* Mobile Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-b border-[#e8e1d6] bg-[#fbf8f3] px-6 py-4 space-y-3 shadow-lg animate-in fade-in slide-in-from-top duration-200">
+            <a 
+              href="#about" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-[#6a6258] hover:text-[#1f1b16] font-medium"
+            >
+              About
+            </a>
+            <a 
+              href="#skills" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-[#6a6258] hover:text-[#1f1b16] font-medium"
+            >
+              Skills
+            </a>
+            <a 
+              href="#work" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-[#6a6258] hover:text-[#1f1b16] font-medium"
+            >
+              Work
+            </a>
+            <div className="pt-2 border-t border-[#e8e1d6]/60 flex items-center justify-between">
+              <a 
+                href="#contact" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="inline-block border-[1.5px] border-[#1f1b16] px-5 py-2 rounded-full font-bold text-sm bg-[#1f1b16] text-[#fbf8f3]"
+              >
+                Get in touch
+              </a>
+              <div className="flex gap-4">
+                <a 
+                  href="https://github.com/shreeyash2010" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-2 text-[#6a6258] hover:text-[#1f1b16]"
+                  aria-label="GitHub Profile"
+                >
+                  <Github size={20} />
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/shreeyash-mali-13497b22b/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-2 text-[#6a6258] hover:text-[#1f1b16]"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin size={20} />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main>
+        {/* Hero Section */}
+        <section className="w-[min(1080px,100%-40px)] mx-auto py-16 sm:py-24 grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-12 items-center relative">
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fde8d8]/80 border border-[#f5ba90] text-[#c9501a] text-xs font-bold tracking-wider uppercase">
+              <span className="w-2 h-2 rounded-full bg-[#e8662a] animate-pulse" />
+              Full-Stack Web Developer
+            </div>
+
+            <h1 className="font-serif-display font-semibold text-3xl sm:text-4xl lg:text-[3.25rem] leading-[1.18] tracking-tight text-[#1f1b16]">
+              I build websites that are{' '}
+              <span className="scribble font-semibold">
+                simple
+                <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M2 8 C 40 2, 70 12, 110 6 S 170 3, 198 7" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
+                </svg>
+              </span>
+              , fast and easy to use.
+            </h1>
+
+            <p className="text-lg text-[#6a6258] max-w-xl leading-relaxed">
+              Hi, I'm Shreeyash. I design and develop websites and web apps from the first sketch to the final deploy with clean architecture and responsive craft.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <a 
+                href="#contact" 
+                className="inline-flex items-center justify-center bg-[#e8662a] text-white border-2 border-[#e8662a] rounded-full px-7 py-3 font-bold hover:bg-[#c9501a] hover:border-[#c9501a] transition-all shadow-sm hover:shadow active:scale-95"
+              >
+                Get in touch
+              </a>
+              <a 
+                href="#work" 
+                className="inline-flex items-center justify-center bg-transparent text-[#1f1b16] border-2 border-[#1f1b16] rounded-full px-7 py-3 font-bold hover:bg-[#1f1b16] hover:text-[#fbf8f3] transition-all active:scale-95"
+              >
+                See my work
+              </a>
+
+              {/* Quick copy email tool */}
+              <button
+                type="button"
+                onClick={copyEmail}
+                className="inline-flex items-center gap-2 text-xs font-semibold text-[#6a6258] hover:text-[#1f1b16] bg-white border border-[#e8e1d6] px-3.5 py-3 rounded-full hover:border-[#1f1b16] transition-colors"
+                title={`Copy ${CONTACT_EMAIL}`}
+              >
+                {copiedEmail ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                <span>{copiedEmail ? 'Email Copied!' : 'Copy Email'}</span>
+              </button>
+            </div>
+
+            {/* Quick availability pill */}
+            <div className="flex flex-wrap items-center gap-4 pt-3 text-xs text-[#6a6258]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-100" />
+                <span>Open for freelance & full-stack roles</span>
+              </div>
+              <span className="text-[#e8e1d6] hidden sm:inline">|</span>
+              <span className="text-[#1f1b16] font-medium">{CONTACT_EMAIL}</span>
+            </div>
+          </div>
+
+          {/* Whimsical Hero Illustration with User's Official Logo */}
+          <div className="relative flex items-center justify-center min-h-[280px] sm:min-h-[340px]">
+            {/* Animated Morphing Organic Blob */}
+            <div 
+              className="absolute w-[260px] h-[260px] sm:w-[310px] sm:h-[310px] bg-[#f8d3b8] animate-blob -z-10 shadow-inner"
+              aria-hidden="true" 
+            />
+
+            {/* Decorative dot matrix */}
+            <div 
+              className="absolute right-0 bottom-4 w-24 h-24 opacity-60 pointer-events-none -z-10"
+              style={{
+                backgroundImage: 'radial-gradient(#e8662a 2px, transparent 2.4px)',
+                backgroundSize: '16px 16px'
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Floating Shapes */}
+            <div 
+              className="absolute top-4 right-6 w-9 h-9 border-4 border-[#1f1b16] rounded-full animate-bob pointer-events-none" 
+              aria-hidden="true" 
+            />
+            <div 
+              className="absolute left-4 top-10 text-3xl font-extrabold text-[#1f1b16] select-none animate-bob-reverse pointer-events-none" 
+              aria-hidden="true"
+            >
+              +
+            </div>
+            <div 
+              className="absolute left-6 bottom-6 w-16 text-[#c9501a] pointer-events-none" 
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 80 20" className="w-full">
+                <path d="M2 10 Q 12 0 22 10 T 42 10 T 62 10 T 78 10" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+              </svg>
+            </div>
+
+            {/* Official Logo Display */}
+            <div className="relative z-10 p-3 bg-white/80 backdrop-blur-xs rounded-full border-2 border-[#e8662a] shadow-lg">
+              <div className="w-[180px] sm:w-[210px] h-[180px] sm:h-[210px] rounded-full overflow-hidden bg-white flex items-center justify-center p-2">
+                <img 
+                  src={logoImg} 
+                  alt="Shreeyash Mali Official Logo" 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = githubAvatarImg;
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Organic Wave Divider */}
+        <div className="h-14 -mt-2 leading-none w-full pointer-events-none" aria-hidden="true">
+          <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-full block">
+            <path d="M0 30 C 240 70, 480 -10, 720 30 S 1200 70, 1440 30 L1440 60 L0 60 Z" fill="#f3ebde" />
+          </svg>
+        </div>
+
+        {/* Section 01: About Me */}
+        <section id="about" className="bg-[#f3ebde] py-16 sm:py-24 border-t-0">
+          <div className="w-[min(1080px,100%-40px)] mx-auto">
+            <p className="font-serif-display font-semibold text-[#e8662a] text-sm tracking-widest flex items-center gap-3 uppercase mb-2">
+              <span>01</span>
+              <span className="w-12 h-[1.5px] bg-[#e8662a]/60 inline-block" />
+            </p>
+
+            <h2 className="font-serif-display text-3xl sm:text-4xl font-semibold mb-8 text-[#1f1b16]">
+              About me
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-[#6a6258] text-[1.05rem] leading-relaxed">
+              <div className="space-y-4">
+                <p>
+                  I started coding when I was 12. I wanted to make my own game, but my computer couldn't run a game engine. Web development ran fine on it, so I switched, and I've enjoyed it ever since.
+                </p>
+                <p>
+                  That early experience shaped how I think about software today: technology shouldn't demand excessive hardware to feel delightful. Simple, well-written code runs fast anywhere.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <p>
+                  Today I work as a full-stack developer. I care about clean code, clear layouts, and sites that load quickly on any device, including old computers like mine was.
+                </p>
+                <p>
+                  Whether crafting modern responsive interfaces with React & Tailwind or developing robust architectural portals, my focus stays on maintainability, performance, and simplicity.
+                </p>
+              </div>
+            </div>
+
+            {/* Core Pillars */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-12 pt-8 border-t border-[#e8e1d6]">
+              <div className="bg-[#fbf8f3] p-6 rounded-xl border border-[#e8e1d6] space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-[#fde8d8] text-[#c9501a] flex items-center justify-center font-bold">
+                  <Zap size={20} />
+                </div>
+                <h3 className="font-serif-display text-lg font-semibold text-[#1f1b16]">Speed & Performance</h3>
+                <p className="text-sm text-[#6a6258]">
+                  Optimized assets, minimal bundle footprint, and sub-second load times for every user.
+                </p>
+              </div>
+
+              <div className="bg-[#fbf8f3] p-6 rounded-xl border border-[#e8e1d6] space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-[#fde8d8] text-[#c9501a] flex items-center justify-center font-bold">
+                  <Laptop size={20} />
+                </div>
+                <h3 className="font-serif-display text-lg font-semibold text-[#1f1b16]">Clean Code Standards</h3>
+                <p className="text-sm text-[#6a6258]">
+                  Semantic markup, strict typing, clean separation of concerns, and accessible UI patterns.
+                </p>
+              </div>
+
+              <div className="bg-[#fbf8f3] p-6 rounded-xl border border-[#e8e1d6] space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-[#fde8d8] text-[#c9501a] flex items-center justify-center font-bold">
+                  <Layers size={20} />
+                </div>
+                <h3 className="font-serif-display text-lg font-semibold text-[#1f1b16]">End-to-End Build</h3>
+                <p className="text-sm text-[#6a6258]">
+                  From initial wireframes and frontend components to backend logic and deployment.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 02: Skills */}
+        <section id="skills" className="py-16 sm:py-24 border-t border-[#e8e1d6]">
+          <div className="w-[min(1080px,100%-40px)] mx-auto">
+            <p className="font-serif-display font-semibold text-[#e8662a] text-sm tracking-widest flex items-center gap-3 uppercase mb-2">
+              <span>02</span>
+              <span className="w-12 h-[1.5px] bg-[#e8662a]/60 inline-block" />
+            </p>
+
+            <h2 className="font-serif-display text-3xl sm:text-4xl font-semibold mb-4 text-[#1f1b16]">
+              Skills & Toolkit
+            </h2>
+
+            <p className="text-[#6a6258] max-w-2xl mb-8">
+              A balanced toolkit centered on modern web standards, client architecture portals, and clean developer workflows.
+            </p>
+
+            <ul className="flex flex-wrap gap-3 list-none p-0 m-0">
+              {SKILLS.map((skill, index) => (
+                <li
+                  key={skill.name}
+                  className="bg-white border border-[#e8e1d6] rounded-full px-5 py-2.5 text-[0.95rem] font-medium text-[#1f1b16] flex items-center gap-2.5 shadow-xs hover:border-[#e8662a] hover:-translate-y-0.5 transition-all duration-150 cursor-default"
+                >
+                  <span 
+                    className={`w-2 h-2 rounded-full ${index % 2 === 0 ? 'bg-[#e8662a]' : 'bg-[#1f1b16]'}`} 
+                    aria-hidden="true"
+                  />
+                  <span>{skill.name}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Quick Experience Context */}
+            <div className="mt-12 bg-white/80 border border-[#e8e1d6] rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <h4 className="font-bold text-base text-[#1f1b16] flex items-center gap-2">
+                  <Code2 size={18} className="text-[#e8662a]" />
+                  Always Building & Refining
+                </h4>
+                <p className="text-sm text-[#6a6258] max-w-xl">
+                  Building real production solutions for architecture firms, web apps, and modern digital experiences.
+                </p>
+              </div>
+              <a 
+                href="https://github.com/shreeyash2010" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#c9501a] hover:text-[#e8662a] group"
+              >
+                <span>Browse my GitHub commits</span>
+                <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 03: Selected Work - Real Extracted Projects */}
+        <section id="work" className="py-16 sm:py-24 border-t border-[#e8e1d6]">
+          <div className="w-[min(1080px,100%-40px)] mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div>
+                <p className="font-serif-display font-semibold text-[#e8662a] text-sm tracking-widest flex items-center gap-3 uppercase mb-2">
+                  <span>03</span>
+                  <span className="w-12 h-[1.5px] bg-[#e8662a]/60 inline-block" />
+                </p>
+                <h2 className="font-serif-display text-3xl sm:text-4xl font-semibold text-[#1f1b16]">
+                  Extracted Projects & Work
+                </h2>
+                <p className="text-sm text-[#6a6258] mt-1">
+                  Repositories and production client web platforms from <span className="font-semibold text-[#1f1b16]">@shreeyash2010</span>
+                </p>
+              </div>
+
+              {/* Filter controls */}
+              <div className="flex items-center gap-1.5 p-1 bg-white border border-[#e8e1d6] rounded-xl self-start sm:self-auto">
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('all')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
+                    activeCategory === 'all' 
+                      ? 'bg-[#1f1b16] text-white shadow-xs' 
+                      : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  }`}
+                >
+                  All ({EXTRACTED_PROJECTS.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('fullstack')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
+                    activeCategory === 'fullstack' 
+                      ? 'bg-[#1f1b16] text-white shadow-xs' 
+                      : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  }`}
+                >
+                  Full-Stack
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('client')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
+                    activeCategory === 'client' 
+                      ? 'bg-[#1f1b16] text-white shadow-xs' 
+                      : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  }`}
+                >
+                  Client Portal
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveCategory('frontend')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
+                    activeCategory === 'frontend' 
+                      ? 'bg-[#1f1b16] text-white shadow-xs' 
+                      : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  }`}
+                >
+                  Brand V1
+                </button>
+              </div>
+            </div>
+
+            {/* Extracted Projects Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {filteredProjects.map((project) => (
+                <article
+                  key={project.id}
+                  className="group relative bg-white border border-[#e8e1d6] rounded-xl p-7 pt-9 transition-all duration-200 hover:-translate-y-1 hover:border-[#e8662a] hover:shadow-md overflow-hidden flex flex-col justify-between"
+                >
+                  {/* Accent Top Border Fill on Hover */}
+                  <div 
+                    className="absolute top-0 left-0 h-1.5 bg-[#e8662a] w-1/4 transition-all duration-300 group-hover:w-full"
+                    aria-hidden="true" 
+                  />
+
+                  {/* Big Number Watermark */}
+                  <span 
+                    className="absolute right-5 top-3 font-serif-display text-5xl font-bold text-[#f1e6d6] select-none pointer-events-none transition-colors group-hover:text-[#f8d3b8]/60"
+                    aria-hidden="true"
+                  >
+                    {project.number}
+                  </span>
+
+                  <div className="space-y-3 relative z-10">
+                    <div className="flex items-center gap-2">
+                      {project.id.includes('architects') ? (
+                        <Building2 size={16} className="text-[#e8662a]" />
+                      ) : (
+                        <Globe size={16} className="text-[#e8662a]" />
+                      )}
+                      <span className="text-xs font-bold text-[#c9501a] tracking-wider uppercase">
+                        {project.category}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif-display text-xl font-semibold text-[#1f1b16] group-hover:text-[#c9501a] transition-colors pr-10">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-sm font-medium text-[#1f1b16]/80 italic">
+                      {project.tagline}
+                    </p>
+
+                    <p className="text-[#6a6258] text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {project.tags.map(tag => (
+                        <span 
+                          key={tag} 
+                          className="text-[11px] text-[#6a6258] bg-[#fbf8f3] border border-[#e8e1d6] px-2 py-0.5 rounded-md font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 pt-5 border-t border-[#e8e1d6]/80 flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sm font-bold text-[#c9501a] hover:underline"
+                      >
+                        <Github size={15} />
+                        <span>Source Code</span>
+                        <ArrowUpRight size={14} />
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProject(project)}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#6a6258] hover:text-[#1f1b16] bg-[#fbf8f3] hover:bg-white border border-[#e8e1d6] px-2.5 py-1.5 rounded-lg transition-colors"
+                      >
+                        <Eye size={13} />
+                        <span>Features</span>
+                      </button>
+                    </div>
+
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-[#1f1b16] bg-[#fde8d8] hover:bg-[#f8d3b8] px-3 py-1.5 rounded-lg transition-colors border border-[#f5ba90]"
+                      >
+                        <ExternalLink size={13} className="text-[#e8662a]" />
+                        <span>Visit Live Site</span>
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* Repositories Direct Links Banner */}
+            <div className="mt-10 p-6 bg-white border border-[#e8e1d6] rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#fde8d8] flex items-center justify-center text-[#e8662a]">
+                  <Github size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-[#1f1b16]">Extracted from GitHub Profile</h4>
+                  <p className="text-xs text-[#6a6258]">
+                    Offical-Site · Mohalkar_Architects_Planners · Mohalkar-Architects
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <a 
+                  href="https://github.com/shreeyash2010/Mohalkar-Architects" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#fbf8f3] border border-[#e8e1d6] hover:border-[#1f1b16] transition-colors flex items-center gap-1"
+                >
+                  <span>Mohalkar-Architects</span>
+                  <ArrowUpRight size={13} />
+                </a>
+                <a 
+                  href="https://github.com/shreeyash2010/Mohalkar_Architects_Planners" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#fbf8f3] border border-[#e8e1d6] hover:border-[#1f1b16] transition-colors flex items-center gap-1"
+                >
+                  <span>Mohalkar_Planners</span>
+                  <ArrowUpRight size={13} />
+                </a>
+                <a 
+                  href="https://github.com/shreeyash2010/Offical-Site" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#fbf8f3] border border-[#e8e1d6] hover:border-[#1f1b16] transition-colors flex items-center gap-1"
+                >
+                  <span>Offical-Site</span>
+                  <ArrowUpRight size={13} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 04: Let's Work Together (Updated to new email) */}
+        <section className="w-[min(1080px,100%-40px)] mx-auto my-12 sm:my-16">
+          <div 
+            id="contact" 
+            className="bg-[#1f1b16] text-[#f6efe4] rounded-3xl p-8 sm:p-14 lg:p-16 relative overflow-hidden shadow-xl"
+          >
+            {/* Background geometric accents */}
+            <div 
+              className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#e8662a] opacity-90 blur-xs pointer-events-none"
+              aria-hidden="true" 
+            />
+            <div 
+              className="absolute right-16 -bottom-8 w-28 h-28 pointer-events-none opacity-30"
+              style={{
+                backgroundImage: 'radial-gradient(#f6efe4 2px, transparent 2.4px)',
+                backgroundSize: '16px 16px'
+              }}
+              aria-hidden="true" 
+            />
+
+            <div className="relative z-10 max-w-2xl">
+              <p className="font-serif-display font-semibold text-[#e8662a] text-sm tracking-widest flex items-center gap-3 uppercase mb-2">
+                <span>04</span>
+                <span className="w-12 h-[1.5px] bg-[#e8662a]/60 inline-block" />
+              </p>
+
+              <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-white">
+                Let's work together
+              </h2>
+
+              <p className="text-[#cfc5b6] text-lg leading-relaxed mb-6">
+                Have a project or a question? Send me a message and I'll reply promptly.
+              </p>
+
+              {/* Direct Quick Contact Buttons with NEW EMAIL */}
+              <div className="flex flex-wrap gap-3 mb-8">
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  className="inline-flex items-center gap-2 bg-[#2b261f] hover:bg-[#383127] border border-[#41392f] text-sm text-[#f6efe4] px-4 py-2.5 rounded-xl transition-colors"
+                >
+                  {copiedEmail ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
+                  <span>{copiedEmail ? 'Copied to clipboard!' : CONTACT_EMAIL}</span>
+                </button>
+
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="inline-flex items-center gap-2 bg-[#e8662a] hover:bg-[#c9501a] text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-colors shadow-sm"
+                >
+                  <Mail size={16} />
+                  <span>Send to {CONTACT_EMAIL}</span>
+                </a>
+              </div>
+
+              {/* Contact Form */}
+              <form onSubmit={handleContactSubmit} className="space-y-4" noValidate>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label htmlFor="name-input" className="block text-sm font-medium text-[#f6efe4]">
+                      Your name
+                    </label>
+                    <input 
+                      id="name-input"
+                      type="text" 
+                      value={formName}
+                      onChange={(e) => setFormName(e.target.value)}
+                      placeholder="Jane Doe"
+                      required
+                      autoComplete="name"
+                      className="w-full bg-[#2b261f] border border-[#41392f] rounded-xl px-4 py-3 text-[#f6efe4] placeholder-[#8a7f70] focus:outline-none focus:border-[#e8662a] focus:ring-2 focus:ring-[#e8662a]/30 transition-colors text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label htmlFor="email-input" className="block text-sm font-medium text-[#f6efe4]">
+                      Your email
+                    </label>
+                    <input 
+                      id="email-input"
+                      type="email" 
+                      value={formEmail}
+                      onChange={(e) => setFormEmail(e.target.value)}
+                      placeholder="jane@example.com"
+                      required
+                      autoComplete="email"
+                      className="w-full bg-[#2b261f] border border-[#41392f] rounded-xl px-4 py-3 text-[#f6efe4] placeholder-[#8a7f70] focus:outline-none focus:border-[#e8662a] focus:ring-2 focus:ring-[#e8662a]/30 transition-colors text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="message-input" className="block text-sm font-medium text-[#f6efe4]">
+                    Message
+                  </label>
+                  <textarea 
+                    id="message-input"
+                    rows={4}
+                    value={formMessage}
+                    onChange={(e) => setFormMessage(e.target.value)}
+                    placeholder="Tell me about what you're building..."
+                    required
+                    className="w-full bg-[#2b261f] border border-[#41392f] rounded-xl px-4 py-3 text-[#f6efe4] placeholder-[#8a7f70] focus:outline-none focus:border-[#e8662a] focus:ring-2 focus:ring-[#e8662a]/30 transition-colors text-sm resize-y"
+                  />
+                </div>
+
+                <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-4">
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="inline-flex items-center justify-center gap-2 bg-[#e8662a] hover:bg-[#c9501a] text-white font-bold px-8 py-3 rounded-full transition-all disabled:opacity-60 active:scale-95 shadow-md"
+                  >
+                    <Send size={16} />
+                    <span>{isSubmitting ? 'Preparing...' : 'Send message'}</span>
+                  </button>
+
+                  {formStatus && (
+                    <p 
+                      role="status" 
+                      className={`text-sm ${formStatus.isError ? 'text-[#ff9a8f]' : 'text-[#8ee0a1]'}`}
+                    >
+                      {formStatus.text}
+                    </p>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Project Details Modal */}
+      {selectedProject && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150"
+          onClick={() => setSelectedProject(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div 
+            className="bg-[#fbf8f3] max-w-lg w-full rounded-2xl border border-[#e8e1d6] p-7 shadow-2xl space-y-5 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-5 right-5 p-1.5 rounded-full text-[#6a6258] hover:text-[#1f1b16] hover:bg-[#e8e1d6]/50 transition-colors"
+              aria-label="Close dialog"
+            >
+              <X size={20} />
+            </button>
+
+            <div className="space-y-1">
+              <span className="font-serif-display text-sm font-bold text-[#e8662a]">
+                Project {selectedProject.number}
+              </span>
+              <h3 id="modal-title" className="font-serif-display text-2xl font-bold text-[#1f1b16]">
+                {selectedProject.title}
+              </h3>
+              <p className="text-sm font-medium text-[#c9501a]">
+                {selectedProject.tagline}
+              </p>
+            </div>
+
+            <div className="space-y-3 text-sm text-[#6a6258] leading-relaxed">
+              <p>{selectedProject.longDescription}</p>
+              
+              {selectedProject.keyFeatures && selectedProject.keyFeatures.length > 0 && (
+                <div className="space-y-1.5 pt-2">
+                  <span className="text-xs font-bold text-[#1f1b16] uppercase tracking-wider block">Key Highlights:</span>
+                  <ul className="space-y-1 text-xs text-[#6a6258] list-disc pl-4">
+                    {selectedProject.keyFeatures.map((kf, i) => (
+                      <li key={i}>{kf}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {selectedProject.metrics && (
+                <div className="p-3 bg-white border border-[#e8e1d6] rounded-xl flex items-center gap-2 text-xs font-semibold text-[#1f1b16]">
+                  <Sparkles size={15} className="text-[#e8662a]" />
+                  <span>Key Attribute: {selectedProject.metrics}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs uppercase font-bold text-[#6a6258] tracking-wider">Tech Stack</span>
+              <div className="flex flex-wrap gap-2">
+                {selectedProject.tags.map(t => (
+                  <span key={t} className="text-xs bg-white border border-[#e8e1d6] px-2.5 py-1 rounded-md text-[#1f1b16] font-medium">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-[#e8e1d6] flex items-center justify-between gap-3">
+              {selectedProject.liveUrl ? (
+                <a
+                  href={selectedProject.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1f1b16] hover:text-[#e8662a]"
+                >
+                  <Globe size={14} />
+                  <span>Live Site</span>
+                </a>
+              ) : <div />}
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedProject(null)}
+                  className="px-4 py-2 text-sm font-semibold text-[#6a6258] hover:text-[#1f1b16]"
+                >
+                  Close
+                </button>
+                <a
+                  href={selectedProject.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-[#e8662a] hover:bg-[#c9501a] text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors"
+                >
+                  <span>View Repository</span>
+                  <ExternalLink size={15} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Site Footer */}
+      <footer className="border-t-4 border-[#e8662a] bg-[#fbf8f3] py-8 text-[#6a6258] text-sm">
+        <div className="w-[min(1080px,100%-40px)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} Shreeyash Mali · <a href={`mailto:${CONTACT_EMAIL}`} className="hover:underline">{CONTACT_EMAIL}</a></p>
+          <div className="flex items-center gap-6">
+            <a 
+              href="https://www.linkedin.com/in/shreeyash-mali-13497b22b/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-[#1f1b16] hover:underline flex items-center gap-1.5 transition-colors"
+            >
+              <Linkedin size={15} />
+              <span>LinkedIn</span>
+            </a>
+            <span>·</span>
+            <a 
+              href="https://github.com/shreeyash2010" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-[#1f1b16] hover:underline flex items-center gap-1.5 transition-colors"
+            >
+              <Github size={15} />
+              <span>GitHub</span>
+            </a>
+            <span>·</span>
+            <a 
+              href="#top" 
+              className="hover:text-[#1f1b16] hover:underline transition-colors"
+            >
+              Back to top ↑
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
