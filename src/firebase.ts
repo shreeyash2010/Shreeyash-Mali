@@ -6,7 +6,9 @@ import {
   setDoc, 
   updateDoc, 
   increment,
-  getDoc
+  getDoc,
+  collection,
+  addDoc
 } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
@@ -67,4 +69,17 @@ export function subscribeToVisitorCount(callback: (count: number) => void): () =
   );
 
   return unsubscribe;
+}
+
+/**
+ * Saves an incoming contact inquiry directly into Firestore
+ */
+export async function saveContactMessage(name: string, email: string, message: string): Promise<void> {
+  const messagesCol = collection(db, 'messages');
+  await addDoc(messagesCol, {
+    name,
+    email,
+    message,
+    createdAt: new Date().toISOString()
+  });
 }

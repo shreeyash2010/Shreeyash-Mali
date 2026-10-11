@@ -7,5 +7,14 @@ service cloud.firestore {
       allow update: if request.resource.data.visitor_count is int;
       allow delete: if false;
     }
+
+    match /messages/{messageId} {
+      allow read: if false;
+      allow create: if request.resource.data.name is string 
+                    && request.resource.data.email is string 
+                    && request.resource.data.message is string 
+                    && request.resource.data.createdAt is string;
+      allow update, delete: if false;
+    }
   }
 }

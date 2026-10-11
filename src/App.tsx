@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { VisitorCounter } from './components/VisitorCounter';
+import { saveContactMessage } from './firebase';
 import logoMonogram from './assets/logo-monogram.svg';
 import logoWordmark from './assets/logo-2-wordmark.svg';
 import logoImg from './assets/logo-modified.png';
@@ -191,17 +192,27 @@ export default function App() {
 
     setIsSubmitting(true);
     setFormStatus({
-      text: 'Opening your email client... Just hit send to reach Shreeyash!',
+      text: 'Saving your message to Mali Studio and preparing email...',
       isError: false
     });
 
-    const subject = encodeURIComponent(`Website message from ${name}`);
-    const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
-
-    setTimeout(() => {
-      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-      setIsSubmitting(false);
-    }, 600);
+    saveContactMessage(name, email, message)
+      .catch((err) => console.warn('Saved fallback notice:', err))
+      .finally(() => {
+        setFormStatus({
+          text: 'Message received! Opening your email client to send direct copy...',
+          isError: false
+        });
+        const subject = encodeURIComponent(`Mali Studio inquiry from ${name}`);
+        const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
+        setTimeout(() => {
+          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+          setIsSubmitting(false);
+          setFormName('');
+          setFormEmail('');
+          setFormMessage('');
+        }, 500);
+      });
   };
 
   const filteredProjects = activeCategory === 'all' 
@@ -1225,7 +1236,7 @@ export default function App() {
       <footer className="border-t-4 border-[#e8662a] bg-[#fbf8f3] py-8 text-[#6a6258] text-sm">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
-            <p>© {new Date().getFullYear()} Mali Studio · Directed by Shreeyash Mali · <a href="https://shreeyash-mali-zeta.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">shreeyash-mali-zeta.vercel.app</a></p>
+            <p>© {new Date().getFullYear()} Mali Studio · Directed by Shreeyash Mali · <a href="https://mali-studios.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">mali-studios.vercel.app</a></p>
             <VisitorCounter />
           </div>
           <div className="flex items-center gap-6">

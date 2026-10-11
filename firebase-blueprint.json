@@ -15,12 +15,40 @@
         }
       },
       "required": ["visitor_count"]
+    },
+    "contactMessage": {
+      "title": "Contact Message",
+      "description": "Inquiries submitted via Mali Studio contact form",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Sender name"
+        },
+        "email": {
+          "type": "string",
+          "description": "Sender email"
+        },
+        "message": {
+          "type": "string",
+          "description": "Message content"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when submitted"
+        }
+      },
+      "required": ["name", "email", "message", "createdAt"]
     }
   },
   "firestore": {
     "/analytics/{docId}": {
       "schema": "visitorCounter",
       "description": "Collection storing aggregated site analytics and pageview counts"
+    },
+    "/messages/{messageId}": {
+      "schema": "contactMessage",
+      "description": "Collection storing client messages submitted to Mali Studio"
     }
   }
 }
