@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <!-- Subtle Cream Canvas -->
+  <rect width="600" height="600" fill="#faf7f2" rx="36"/>
+
+  <!-- Peach Circle Disc -->
+  <circle cx="300" cy="210" r="145" fill="#f7cfb2"/>
+
+  <g id="stacked-m-emblem">
+    <!-- Left Stem (Charcoal Black) -->
+    <path d="M 232 136 L 232 284" stroke="#1b1916" stroke-width="31" stroke-linecap="round"/>
+
+    <!-- Right Stem (Charcoal Black) -->
+    <path d="M 368 136 L 368 284" stroke="#1b1916" stroke-width="31" stroke-linecap="round"/>
+
+    <!-- Center Chevron V (Terracotta Orange) -->
+    <path d="M 232 136 L 300 224 L 368 136" fill="none" stroke="#e05a26" stroke-width="31" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Accent Dot on lower right edge of peach disc -->
+    <circle cx="414" cy="330" r="16" fill="#e05a26"/>
+  </g>
+
+  <!-- Typography: Mali Studios in Serif -->
+  <text 
+    x="300" 
+    y="472" 
+    text-anchor="middle"
+    font-family="'Fraunces', Georgia, serif" 
+    font-weight="900" 
+    font-size="58" 
+    letter-spacing="-0.02em" 
+    fill="#1b1916"
+  >Mali Studios</text>
+
+  <!-- Subtitle: W E B   S T U D I O -->
+  <text 
+    x="300" 
+    y="522" 
+    text-anchor="middle"
+    font-family="'DM Sans', system-ui, sans-serif" 
+    font-weight="700" 
+    font-size="18" 
+    letter-spacing="0.4em" 
+    fill="#e05a26"
+  >WEB STUDIO</text>
+</svg>

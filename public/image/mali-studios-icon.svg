@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <clipPath id="squircleClip">
+      <rect x="15" y="15" width="570" height="570" rx="145" />
+    </clipPath>
+  </defs>
+
+  <!-- Dark Charcoal Squircle Background -->
+  <rect x="15" y="15" width="570" height="570" rx="145" fill="#1b1916"/>
+
+  <g id="m-emblem">
+    <!-- Left Stem (Cream/White) -->
+    <path d="M 195 165 L 195 435" stroke="#fcfaf6" stroke-width="58" stroke-linecap="round"/>
+
+    <!-- Right Stem (Cream/White) -->
+    <path d="M 405 165 L 405 435" stroke="#fcfaf6" stroke-width="58" stroke-linecap="round"/>
+
+    <!-- Center Chevron V (Terracotta Orange) -->
+    <path d="M 195 165 L 300 330 L 405 165" fill="none" stroke="#e05a26" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Accent Dot (Terracotta Orange) -->
+    <circle cx="452" cy="452" r="29" fill="#e05a26"/>
+  </g>
+</svg>

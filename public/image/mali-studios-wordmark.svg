@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" width="880" height="360">
+  <!-- Left Emblem: Dark Charcoal Circle with M Mark -->
+  <circle cx="170" cy="180" r="130" fill="#1b1916"/>
+
+  <g id="wordmark-emblem">
+    <!-- Left Stem (Cream/White) -->
+    <path d="M 124 116 L 124 244" stroke="#fcfaf6" stroke-width="26" stroke-linecap="round"/>
+
+    <!-- Right Stem (Cream/White) -->
+    <path d="M 216 116 L 216 244" stroke="#fcfaf6" stroke-width="26" stroke-linecap="round"/>
+
+    <!-- Center Chevron V (Terracotta Orange) -->
+    <path d="M 124 116 L 170 190 L 216 116" fill="none" stroke="#e05a26" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Accent Dot (Terracotta Orange) -->
+    <circle cx="237" cy="253" r="13" fill="#e05a26"/>
+  </g>
+
+  <!-- Typography Right: M A L I in Elegant Serif -->
+  <text 
+    x="342" 
+    y="160" 
+    font-family="'Fraunces', Georgia, serif" 
+    font-weight="900" 
+    font-size="106" 
+    letter-spacing="0.22em" 
+    fill="#1b1916"
+  >M A L I</text>
+
+  <!-- Hairline Horizontal Divider -->
+  <line x1="344" y1="198" x2="770" y2="198" stroke="#beb8ad" stroke-width="2.5" />
+
+  <!-- Subtitle: S T U D I O S in Terracotta -->
+  <text 
+    x="346" 
+    y="248" 
+    font-family="'DM Sans', system-ui, sans-serif" 
+    font-weight="700" 
+    font-size="34" 
+    letter-spacing="0.48em" 
+    fill="#e05a26"
+  >S T U D I O S</text>
+</svg>

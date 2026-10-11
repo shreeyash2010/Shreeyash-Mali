@@ -3,8 +3,9 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { VisitorCounter } from './components/VisitorCounter';
 import { saveContactMessage } from './firebase';
-import logoMonogram from './assets/logo-monogram.svg';
-import logoWordmark from './assets/logo-2-wordmark.svg';
+import logoIcon from './assets/logo-icon-mali.svg';
+import logoWordmark from './assets/logo-wordmark-mali.svg';
+import logoStacked from './assets/logo-stacked-mali.svg';
 import logoImg from './assets/logo-modified.png';
 import githubAvatarImg from './assets/github-avatar.png';
 import { 
@@ -141,7 +142,7 @@ export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'all' | 'fullstack' | 'client' | 'frontend'>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [activeLogo, setActiveLogo] = useState<'monogram' | 'wordmark'>('monogram');
+  const [activeLogo, setActiveLogo] = useState<'icon' | 'wordmark' | 'stacked'>('icon');
   const [brandModalOpen, setBrandModalOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -192,7 +193,7 @@ export default function App() {
 
     setIsSubmitting(true);
     setFormStatus({
-      text: 'Saving your message to Mali Studio and preparing email...',
+      text: 'Saving your message to Mali Studios and preparing email...',
       isError: false
     });
 
@@ -203,7 +204,7 @@ export default function App() {
           text: 'Message received! Opening your email client to send direct copy...',
           isError: false
         });
-        const subject = encodeURIComponent(`Mali Studio inquiry from ${name}`);
+        const subject = encodeURIComponent(`Mali Studios inquiry from ${name}`);
         const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
         setTimeout(() => {
           window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
@@ -240,19 +241,19 @@ export default function App() {
       <header className="sticky top-0 z-40 bg-[#fbf8f3]/90 backdrop-blur-md border-b border-[#e8e1d6] transition-all">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex items-center justify-between h-16">
           <a href="#top" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8662a] rounded-lg p-1">
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#e8662a] bg-[#1f1b16] flex items-center justify-center shadow-xs transition-transform group-hover:scale-105">
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-xs transition-transform group-hover:scale-105 bg-[#1b1916] flex items-center justify-center border border-[#1b1916]">
               <img 
-                src={logoMonogram} 
-                alt="Shreeyash Mali Seal Monogram" 
+                src={logoIcon} 
+                alt="Mali Studios Icon" 
                 className="w-full h-full object-contain"
               />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-[1.08rem] tracking-tight leading-tight group-hover:text-[#e8662a] transition-colors">
-                Mali Studio
+                Mali Studios
               </span>
               <span className="text-xs text-[#6a6258] font-medium hidden sm:inline-block">
-                Web Design & Engineering
+                Web Studio & Design
               </span>
             </div>
           </a>
@@ -386,7 +387,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fde8d8]/80 border border-[#f5ba90] text-[#c9501a] text-xs font-bold tracking-wider uppercase">
               <span className="w-2 h-2 rounded-full bg-[#e8662a] animate-pulse" />
-              Mali Studio · Digital Web Craft
+              Mali Studios · Web Studio
             </div>
 
             <h1 className="font-serif-display font-semibold text-3xl sm:text-4xl lg:text-[3.25rem] leading-[1.18] tracking-tight text-[#1f1b16]">
@@ -401,7 +402,7 @@ export default function App() {
             </h1>
 
             <p className="text-lg text-[#6a6258] max-w-xl leading-relaxed">
-              Welcome to <strong className="text-[#1f1b16] font-semibold">Mali Studio</strong>. Directed by Shreeyash Mali, we engineer bespoke client websites, architectural platforms, and full-stack digital systems with clean code and responsive craft.
+              Welcome to <strong className="text-[#1f1b16] font-semibold">Mali Studios</strong>. Directed by Shreeyash Mali, we engineer bespoke client websites, architectural platforms, and full-stack digital systems with clean code and responsive craft.
             </p>
 
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
@@ -424,7 +425,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-xs font-bold text-[#1f1b16] hover:text-white bg-white hover:bg-[#25D366] border border-[#e8e1d6] hover:border-[#25D366] px-4 py-3 rounded-full transition-all shadow-2xs group active:scale-95"
-                title="Chat with Mali Studio on WhatsApp (+91 97307 17210)"
+                title="Chat with Mali Studios on WhatsApp (+91 97307 17210)"
               >
                 <WhatsAppIcon size={16} className="text-[#25D366] group-hover:text-white transition-colors" />
                 <span>WhatsApp</span>
@@ -503,11 +504,11 @@ export default function App() {
 
             {/* New Official Logo Display & Interactive Switcher */}
             <div className="relative z-10 flex flex-col items-center gap-4">
-              <div className="p-3 bg-white/90 backdrop-blur-xs rounded-full border-2 border-[#e8662a] shadow-xl hover:scale-105 transition-transform duration-300">
-                <div className="w-[190px] sm:w-[220px] h-[190px] sm:h-[220px] rounded-full overflow-hidden flex items-center justify-center p-2 bg-[#fbf8f3]">
+              <div className="p-3 bg-white/95 backdrop-blur-xs rounded-3xl border-2 border-[#e8662a]/60 shadow-xl hover:scale-105 transition-transform duration-300">
+                <div className="w-[200px] sm:w-[240px] h-[200px] sm:h-[240px] rounded-2xl overflow-hidden flex items-center justify-center p-3 bg-[#faf7f2]">
                   <img 
-                    src={activeLogo === 'monogram' ? logoMonogram : logoWordmark} 
-                    alt={`Shreeyash Mali ${activeLogo} Logo`} 
+                    src={activeLogo === 'icon' ? logoIcon : activeLogo === 'wordmark' ? logoWordmark : logoStacked} 
+                    alt={`Mali Studios ${activeLogo} Logo`} 
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -517,21 +518,30 @@ export default function App() {
               <div className="flex items-center gap-1 p-1 bg-white/95 backdrop-blur-md border border-[#e8e1d6] rounded-full shadow-sm text-xs">
                 <button
                   type="button"
-                  onClick={() => setActiveLogo('monogram')}
-                  className={`px-3.5 py-1 rounded-full font-semibold transition-all ${
-                    activeLogo === 'monogram' ? 'bg-[#1f1b16] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  onClick={() => setActiveLogo('icon')}
+                  className={`px-3 py-1 rounded-full font-semibold transition-all ${
+                    activeLogo === 'icon' ? 'bg-[#1b1916] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1b1916]'
                   }`}
                 >
-                  Monogram Seal
+                  Icon
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveLogo('wordmark')}
-                  className={`px-3.5 py-1 rounded-full font-semibold transition-all ${
-                    activeLogo === 'wordmark' ? 'bg-[#1f1b16] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1f1b16]'
+                  className={`px-3 py-1 rounded-full font-semibold transition-all ${
+                    activeLogo === 'wordmark' ? 'bg-[#1b1916] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1b1916]'
                   }`}
                 >
                   Wordmark
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveLogo('stacked')}
+                  className={`px-3 py-1 rounded-full font-semibold transition-all ${
+                    activeLogo === 'stacked' ? 'bg-[#1b1916] text-white shadow-xs' : 'text-[#6a6258] hover:text-[#1b1916]'
+                  }`}
+                >
+                  Stacked
                 </button>
                 <button
                   type="button"
@@ -561,13 +571,13 @@ export default function App() {
             </p>
 
             <h2 className="font-serif-display text-3xl sm:text-4xl font-semibold mb-8 text-[#1f1b16]">
-              About Mali Studio
+              About Mali Studios
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-[#6a6258] text-[1.05rem] leading-relaxed">
               <div className="space-y-4">
                 <p>
-                  <strong className="text-[#1f1b16]">Mali Studio</strong> is an independent digital design and full-stack engineering practice founded by Shreeyash Mali. We build high-performance web applications, architecture firm portals, and bespoke websites tailored for impact.
+                  <strong className="text-[#1f1b16]">Mali Studios</strong> is an independent digital design and full-stack engineering practice founded by Shreeyash Mali. We build high-performance web applications, architecture firm portals, and bespoke websites tailored for impact.
                 </p>
                 <p>
                   Shreeyash began coding at age 12 with a curiosity for how interactive systems work. That early foundation shaped our studio ethos: software shouldn't require bloated dependencies to feel delightful. Purpose-built, well-architected code runs smoothly everywhere.
@@ -575,7 +585,7 @@ export default function App() {
               </div>
               <div className="space-y-4">
                 <p>
-                  At Mali Studio, we bridge creative design with rigorous engineering. Every project benefits from modular TypeScript architectures, modern typography, and rapid load times across all viewports.
+                  At Mali Studios, we bridge creative design with rigorous engineering. Every project benefits from modular TypeScript architectures, modern typography, and rapid load times across all viewports.
                 </p>
                 <p>
                   From full-scale client portals to custom agency showcases, we deliver turnkey digital solutions built for long-term scalability and effortless maintenance.
@@ -1136,7 +1146,7 @@ export default function App() {
           aria-labelledby="brand-modal-title"
         >
           <div 
-            className="bg-[#fbf8f3] max-w-2xl w-full rounded-2xl border border-[#e8e1d6] p-6 sm:p-8 shadow-2xl space-y-6 relative my-8"
+            className="bg-[#fbf8f3] max-w-3xl w-full rounded-2xl border border-[#e8e1d6] p-6 sm:p-8 shadow-2xl space-y-6 relative my-8"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1153,66 +1163,94 @@ export default function App() {
                 Official Brand Identity
               </span>
               <h3 id="brand-modal-title" className="font-serif-display text-2xl font-bold text-[#1f1b16]">
-                Mali Studio Brand Suite
+                Mali Studios Brand Suite
               </h3>
               <p className="text-sm text-[#6a6258]">
-                Official visual identity marks for Mali Studio featuring warm terracotta typography, modern serif styling, and developer code symbolism.
+                The complete visual identity suite designed for Mali Studios, comprising the squircle icon, horizontal serif wordmark, and stacked studio emblem.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
-              {/* Logo 1: Monogram (Seal Badge) */}
-              <div className={`p-5 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'monogram' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
-                <div className="w-28 h-28 rounded-full overflow-hidden flex items-center justify-center p-2 bg-[#fbf8f3] border border-[#e8e1d6]/60 shadow-xs">
-                  <img src={logoMonogram} alt="Monogram Seal Logo" className="w-full h-full object-contain" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              {/* Logo 1: Squircle App Icon */}
+              <div className={`p-4 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'icon' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
+                <div className="w-24 h-24 rounded-2xl overflow-hidden flex items-center justify-center p-2 bg-[#1b1916] shadow-xs">
+                  <img src={logoIcon} alt="Mali Studios Icon" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">01. Official Studio Seal</h4>
-                  <p className="text-xs text-[#6a6258] mt-1">Signature circular emblem with arched 'MALI STUDIO' typography, stitched ring, and center emblem.</p>
+                  <h4 className="font-serif-display font-bold text-sm text-[#1f1b16]">01. App Icon / Mark</h4>
+                  <p className="text-[11px] text-[#6a6258] mt-1">Dark squircle with cream M stems, orange chevron, and accent dot.</p>
                 </div>
-                <div className="flex gap-2 w-full pt-2">
+                <div className="flex gap-2 w-full pt-1">
                   <button
                     type="button"
-                    onClick={() => setActiveLogo('monogram')}
-                    className={`flex-1 py-2 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'monogram' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
+                    onClick={() => setActiveLogo('icon')}
+                    className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'icon' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
                   >
-                    {activeLogo === 'monogram' ? 'Active Hero Logo' : 'Set as Hero Logo'}
+                    {activeLogo === 'icon' ? 'Active Hero' : 'Set as Hero'}
                   </button>
                   <a
-                    href="/image/logo-monogram.svg"
-                    download="mali-studio-seal.svg"
-                    className="p-2 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
+                    href="/image/mali-studios-icon.svg"
+                    download="mali-studios-icon.svg"
+                    className="p-1.5 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
                     title="Download SVG"
                   >
-                    <ArrowUpRight size={16} />
+                    <ArrowUpRight size={15} />
                   </a>
                 </div>
               </div>
 
-              {/* Logo 2: Wordmark */}
-              <div className={`p-5 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'wordmark' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
-                <div className="w-full h-28 rounded-2xl overflow-hidden flex items-center justify-center p-3 bg-[#fbf8f3] border border-[#e8e1d6]/60 shadow-xs">
-                  <img src={logoWordmark} alt="Mali Studio Wordmark Logo" className="w-full h-full object-contain" />
+              {/* Logo 2: Horizontal Wordmark */}
+              <div className={`p-4 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'wordmark' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
+                <div className="w-full h-24 rounded-2xl overflow-hidden flex items-center justify-center p-2 bg-[#faf7f2] border border-[#e8e1d6]/60 shadow-xs">
+                  <img src={logoWordmark} alt="Mali Studios Horizontal Wordmark" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">02. Studio Wordmark</h4>
-                  <p className="text-xs text-[#6a6258] mt-1">Horizontal brand mark with &lt; / &gt; icon, Mali Studio serif typography, and studio kicker.</p>
+                  <h4 className="font-serif-display font-bold text-sm text-[#1f1b16]">02. Horizontal Wordmark</h4>
+                  <p className="text-[11px] text-[#6a6258] mt-1">Circle emblem with serif M A L I, divider line, and S T U D I O S.</p>
                 </div>
-                <div className="flex gap-2 w-full pt-2">
+                <div className="flex gap-2 w-full pt-1">
                   <button
                     type="button"
                     onClick={() => setActiveLogo('wordmark')}
-                    className={`flex-1 py-2 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'wordmark' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
+                    className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'wordmark' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
                   >
-                    {activeLogo === 'wordmark' ? 'Active Hero Logo' : 'Set as Hero Logo'}
+                    {activeLogo === 'wordmark' ? 'Active Hero' : 'Set as Hero'}
                   </button>
                   <a
-                    href="/image/logo-2-wordmark.svg"
-                    download="mali-studio-wordmark.svg"
-                    className="p-2 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
+                    href="/image/mali-studios-wordmark.svg"
+                    download="mali-studios-wordmark.svg"
+                    className="p-1.5 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
                     title="Download SVG"
                   >
-                    <ArrowUpRight size={16} />
+                    <ArrowUpRight size={15} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Logo 3: Stacked Brand Mark */}
+              <div className={`p-4 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'stacked' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
+                <div className="w-24 h-24 rounded-2xl overflow-hidden flex items-center justify-center p-1 bg-[#faf7f2] border border-[#e8e1d6]/60 shadow-xs">
+                  <img src={logoStacked} alt="Mali Studios Stacked Logo" className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <h4 className="font-serif-display font-bold text-sm text-[#1f1b16]">03. Stacked Emblem</h4>
+                  <p className="text-[11px] text-[#6a6258] mt-1">Peach disc with charcoal M, serif Mali Studios, and WEB STUDIO subline.</p>
+                </div>
+                <div className="flex gap-2 w-full pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setActiveLogo('stacked')}
+                    className={`flex-1 py-1.5 rounded-xl text-xs font-bold transition-colors ${activeLogo === 'stacked' ? 'bg-[#e8662a] text-white shadow-xs' : 'bg-[#fbf8f3] text-[#1f1b16] hover:bg-[#e8e1d6]'}`}
+                  >
+                    {activeLogo === 'stacked' ? 'Active Hero' : 'Set as Hero'}
+                  </button>
+                  <a
+                    href="/image/mali-studios-stacked.svg"
+                    download="mali-studios-stacked.svg"
+                    className="p-1.5 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
+                    title="Download SVG"
+                  >
+                    <ArrowUpRight size={15} />
                   </a>
                 </div>
               </div>
