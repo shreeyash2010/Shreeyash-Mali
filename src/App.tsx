@@ -237,11 +237,11 @@ export default function App() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-[1.05rem] tracking-tight leading-tight group-hover:text-[#e8662a] transition-colors">
-                Shreeyash Mali
+              <span className="font-bold text-[1.08rem] tracking-tight leading-tight group-hover:text-[#e8662a] transition-colors">
+                Mali Studio
               </span>
               <span className="text-xs text-[#6a6258] font-medium hidden sm:inline-block">
-                Full-Stack Web Developer
+                Web Design & Engineering
               </span>
             </div>
           </a>
@@ -375,22 +375,22 @@ export default function App() {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fde8d8]/80 border border-[#f5ba90] text-[#c9501a] text-xs font-bold tracking-wider uppercase">
               <span className="w-2 h-2 rounded-full bg-[#e8662a] animate-pulse" />
-              Full-Stack Web Developer
+              Mali Studio · Digital Web Craft
             </div>
 
             <h1 className="font-serif-display font-semibold text-3xl sm:text-4xl lg:text-[3.25rem] leading-[1.18] tracking-tight text-[#1f1b16]">
-              I build websites that are{' '}
+              We build websites that are{' '}
               <span className="scribble font-semibold">
                 simple
                 <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
                   <path d="M2 8 C 40 2, 70 12, 110 6 S 170 3, 198 7" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
                 </svg>
               </span>
-              , fast and easy to use.
+              , fast and built to scale.
             </h1>
 
             <p className="text-lg text-[#6a6258] max-w-xl leading-relaxed">
-              Hi, I'm Shreeyash. I design and develop websites and web apps from the first sketch to the final deploy with clean architecture and responsive craft.
+              Welcome to <strong className="text-[#1f1b16] font-semibold">Mali Studio</strong>. Directed by Shreeyash Mali, we engineer bespoke client websites, architectural platforms, and full-stack digital systems with clean code and responsive craft.
             </p>
 
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
@@ -398,13 +398,13 @@ export default function App() {
                 href="#contact" 
                 className="inline-flex items-center justify-center bg-[#e8662a] text-white border-2 border-[#e8662a] rounded-full px-7 py-3 font-bold hover:bg-[#c9501a] hover:border-[#c9501a] transition-all shadow-sm hover:shadow active:scale-95"
               >
-                Get in touch
+                Start a project
               </a>
               <a 
                 href="#work" 
                 className="inline-flex items-center justify-center bg-transparent text-[#1f1b16] border-2 border-[#1f1b16] rounded-full px-7 py-3 font-bold hover:bg-[#1f1b16] hover:text-[#fbf8f3] transition-all active:scale-95"
               >
-                See my work
+                Studio work
               </a>
 
               {/* Direct WhatsApp contact button */}
@@ -413,7 +413,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-xs font-bold text-[#1f1b16] hover:text-white bg-white hover:bg-[#25D366] border border-[#e8e1d6] hover:border-[#25D366] px-4 py-3 rounded-full transition-all shadow-2xs group active:scale-95"
-                title="Chat with Shreeyash on WhatsApp (+91 97307 17210)"
+                title="Chat with Mali Studio on WhatsApp (+91 97307 17210)"
               >
                 <WhatsAppIcon size={16} className="text-[#25D366] group-hover:text-white transition-colors" />
                 <span>WhatsApp</span>
@@ -435,7 +435,7 @@ export default function App() {
             <div className="flex flex-wrap items-center gap-4 pt-3 text-xs text-[#6a6258]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-100" />
-                <span>Open for freelance & full-stack roles</span>
+                <span>Open for studio projects & web development</span>
               </div>
               <span className="text-[#e8e1d6] hidden sm:inline">|</span>
               <span className="text-[#1f1b16] font-medium">{CONTACT_EMAIL}</span>
@@ -550,24 +550,24 @@ export default function App() {
             </p>
 
             <h2 className="font-serif-display text-3xl sm:text-4xl font-semibold mb-8 text-[#1f1b16]">
-              About me
+              About Mali Studio
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-[#6a6258] text-[1.05rem] leading-relaxed">
               <div className="space-y-4">
                 <p>
-                  I started coding when I was 12. I wanted to make my own game, but my computer couldn't run a game engine. Web development ran fine on it, so I switched, and I've enjoyed it ever since.
+                  <strong className="text-[#1f1b16]">Mali Studio</strong> is an independent digital design and full-stack engineering practice founded by Shreeyash Mali. We build high-performance web applications, architecture firm portals, and bespoke websites tailored for impact.
                 </p>
                 <p>
-                  That early experience shaped how I think about software today: technology shouldn't demand excessive hardware to feel delightful. Simple, well-written code runs fast anywhere.
+                  Shreeyash began coding at age 12 with a curiosity for how interactive systems work. That early foundation shaped our studio ethos: software shouldn't require bloated dependencies to feel delightful. Purpose-built, well-architected code runs smoothly everywhere.
                 </p>
               </div>
               <div className="space-y-4">
                 <p>
-                  Today I work as a full-stack developer. I care about clean code, clear layouts, and sites that load quickly on any device, including old computers like mine was.
+                  At Mali Studio, we bridge creative design with rigorous engineering. Every project benefits from modular TypeScript architectures, modern typography, and rapid load times across all viewports.
                 </p>
                 <p>
-                  Whether crafting modern responsive interfaces with React & Tailwind or developing robust architectural portals, my focus stays on maintainability, performance, and simplicity.
+                  From full-scale client portals to custom agency showcases, we deliver turnkey digital solutions built for long-term scalability and effortless maintenance.
                 </p>
               </div>
             </div>
@@ -672,10 +672,10 @@ export default function App() {
                   <span className="w-12 h-[1.5px] bg-[#e8662a]/60 inline-block" />
                 </p>
                 <h2 className="font-serif-display text-3xl sm:text-4xl font-semibold text-[#1f1b16]">
-                  Extracted Projects & Work
+                  Studio Projects & Work
                 </h2>
                 <p className="text-sm text-[#6a6258] mt-1">
-                  Repositories and production client web platforms from <span className="font-semibold text-[#1f1b16]">@shreeyash2010</span>
+                  Selected production client web platforms and digital systems engineered by <span className="font-semibold text-[#1f1b16]">Mali Studio</span>
                 </p>
               </div>
 
@@ -899,11 +899,11 @@ export default function App() {
               </p>
 
               <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-white">
-                Let's work together
+                Start a project with Mali Studio
               </h2>
 
               <p className="text-[#cfc5b6] text-lg leading-relaxed mb-6">
-                Have a project or a question? Send me a message and I'll reply promptly.
+                Have an upcoming project, redesign, or architectural web platform? Reach out to Mali Studio and let's craft something exceptional.
               </p>
 
               {/* Direct Quick Contact Buttons */}
@@ -1142,10 +1142,10 @@ export default function App() {
                 Official Brand Identity
               </span>
               <h3 id="brand-modal-title" className="font-serif-display text-2xl font-bold text-[#1f1b16]">
-                Shreeyash Mali Logo Suite
+                Mali Studio Brand Suite
               </h3>
               <p className="text-sm text-[#6a6258]">
-                Three bespoke brand marks designed with warm terracotta typography, modern serif styling, and developer code symbolism.
+                Official visual identity marks for Mali Studio featuring warm terracotta typography, modern serif styling, and developer code symbolism.
               </p>
             </div>
 
@@ -1156,8 +1156,8 @@ export default function App() {
                   <img src={logoMonogram} alt="Monogram Seal Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">01. Official Monogram Seal</h4>
-                  <p className="text-xs text-[#6a6258] mt-1">Signature circular emblem with arched typography, stitched ring, and center &lt; S &gt; mark.</p>
+                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">01. Official Studio Seal</h4>
+                  <p className="text-xs text-[#6a6258] mt-1">Signature circular emblem with arched 'MALI STUDIO' typography, stitched ring, and center emblem.</p>
                 </div>
                 <div className="flex gap-2 w-full pt-2">
                   <button
@@ -1169,7 +1169,7 @@ export default function App() {
                   </button>
                   <a
                     href="/image/logo-monogram.svg"
-                    download="shreeyash-mali-monogram.svg"
+                    download="mali-studio-seal.svg"
                     className="p-2 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
                     title="Download SVG"
                   >
@@ -1181,11 +1181,11 @@ export default function App() {
               {/* Logo 2: Wordmark */}
               <div className={`p-5 rounded-2xl border bg-white flex flex-col items-center text-center space-y-3 transition-all ${activeLogo === 'wordmark' ? 'border-[#e8662a] ring-2 ring-[#e8662a]/20 shadow-md' : 'border-[#e8e1d6]'}`}>
                 <div className="w-full h-28 rounded-2xl overflow-hidden flex items-center justify-center p-3 bg-[#fbf8f3] border border-[#e8e1d6]/60 shadow-xs">
-                  <img src={logoWordmark} alt="Wordmark Logo" className="w-full h-full object-contain" />
+                  <img src={logoWordmark} alt="Mali Studio Wordmark Logo" className="w-full h-full object-contain" />
                 </div>
                 <div>
-                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">02. Horizontal Wordmark</h4>
-                  <p className="text-xs text-[#6a6258] mt-1">Horizontal brand mark with &lt; / &gt; icon, full name serif typography, and developer title.</p>
+                  <h4 className="font-serif-display font-bold text-base text-[#1f1b16]">02. Studio Wordmark</h4>
+                  <p className="text-xs text-[#6a6258] mt-1">Horizontal brand mark with &lt; / &gt; icon, Mali Studio serif typography, and studio kicker.</p>
                 </div>
                 <div className="flex gap-2 w-full pt-2">
                   <button
@@ -1197,7 +1197,7 @@ export default function App() {
                   </button>
                   <a
                     href="/image/logo-2-wordmark.svg"
-                    download="shreeyash-mali-wordmark.svg"
+                    download="mali-studio-wordmark.svg"
                     className="p-2 rounded-xl bg-[#fbf8f3] hover:bg-[#e8e1d6] text-[#1f1b16] border border-[#e8e1d6] flex items-center justify-center"
                     title="Download SVG"
                   >
@@ -1225,7 +1225,7 @@ export default function App() {
       <footer className="border-t-4 border-[#e8662a] bg-[#fbf8f3] py-8 text-[#6a6258] text-sm">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
-            <p>© {new Date().getFullYear()} Shreeyash Mali · <a href="https://shreeyash-mali-zeta.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">shreeyash-mali-zeta.vercel.app</a></p>
+            <p>© {new Date().getFullYear()} Mali Studio · Directed by Shreeyash Mali · <a href="https://shreeyash-mali-zeta.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">shreeyash-mali-zeta.vercel.app</a></p>
             <VisitorCounter />
           </div>
           <div className="flex items-center gap-6">

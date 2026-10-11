@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
   <defs>
-    <!-- Top arc path for FULL-STACK WEB DEVELOPER (clockwise) -->
+    <!-- Top arc path for FULL-STACK WEB STUDIO (clockwise) -->
     <path id="topArcPath" d="M 85 300 A 215 215 0 0 1 515 300" fill="none"/>
-    <!-- Bottom arc path for SHREEYASH MALI (clockwise) -->
+    <!-- Bottom arc path for MALI STUDIO (clockwise) -->
     <path id="bottomArcPath" d="M 515 300 A 215 215 0 0 1 85 300" fill="none"/>
   </defs>
 
@@ -12,17 +12,17 @@
   <!-- Dotted Stitched Circle Ring -->
   <circle cx="300" cy="300" r="268" fill="none" stroke="#e8662a" stroke-width="4.5" stroke-dasharray="1 13" stroke-linecap="round"/>
 
-  <!-- Top Arched Text: FULL-STACK WEB DEVELOPER -->
-  <text fill="#ffffff" font-family="'DM Sans', system-ui, sans-serif" font-weight="800" font-size="27" letter-spacing="0.22em">
+  <!-- Top Arched Text: FULL-STACK WEB STUDIO -->
+  <text fill="#ffffff" font-family="'DM Sans', system-ui, sans-serif" font-weight="800" font-size="28" letter-spacing="0.22em">
     <textPath href="#topArcPath" startOffset="50%" text-anchor="middle">
-      FULL-STACK WEB DEVELOPER
+      FULL-STACK WEB STUDIO
     </textPath>
   </text>
 
-  <!-- Bottom Arched Text: SHREEYASH MALI -->
-  <text fill="#e8662a" font-family="'DM Sans', system-ui, sans-serif" font-weight="800" font-size="30" letter-spacing="0.24em">
+  <!-- Bottom Arched Text: MALI STUDIO -->
+  <text fill="#e8662a" font-family="'DM Sans', system-ui, sans-serif" font-weight="800" font-size="32" letter-spacing="0.26em">
     <textPath href="#bottomArcPath" startOffset="50%" text-anchor="middle">
-      SHREEYASH MALI
+      MALI STUDIO
     </textPath>
   </text>
 
@@ -41,7 +41,7 @@
     <path d="M 388 265 L 420 300 L 388 335" fill="none" stroke="#fde8d8" stroke-width="20"/>
   </g>
 
-  <!-- Large Center S -->
+  <!-- Large Center S / Studio Mark -->
   <text 
     x="300" 
     y="388" 
