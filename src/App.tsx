@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { VisitorCounter } from './components/VisitorCounter';
@@ -27,6 +27,23 @@ import {
   Globe,
   MonitorSmartphone
 } from 'lucide-react';
+
+const WHATSAPP_LINK = 'https://wa.me/919730717210?text=hello,%20i%20am%20reaching%20out%20from%20your%20link';
+
+function WhatsAppIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg 
+      viewBox="0 0 24 24" 
+      width={size} 
+      height={size} 
+      fill="currentColor" 
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  );
+}
 
 interface Project {
   id: string;
@@ -125,6 +142,22 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeLogo, setActiveLogo] = useState<'monogram' | 'wordmark'>('monogram');
   const [brandModalOpen, setBrandModalOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Track scroll reading progress across viewport
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        const progress = Math.min(100, Math.max(0, (window.scrollY / totalScroll) * 100));
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Contact form state
   const [formName, setFormName] = useState('');
@@ -176,7 +209,22 @@ export default function App() {
     : EXTRACTED_PROJECTS.filter(p => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen text-[#1f1b16] selection:bg-[#fde8d8] selection:text-[#c9501a]">
+    <div className="min-h-screen text-[#1f1b16] selection:bg-[#fde8d8] selection:text-[#c9501a] relative">
+      {/* Thin, Fixed Reading Progress Bar at the Top of the Viewport */}
+      <div 
+        className="fixed top-0 left-0 right-0 h-[3.5px] z-50 pointer-events-none bg-[#e8e1d6]/30 backdrop-blur-2xs"
+        role="progressbar"
+        aria-valuenow={Math.round(scrollProgress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Reading progress"
+      >
+        <div 
+          className="h-full bg-gradient-to-r from-[#e8662a] via-[#f7935b] to-[#e8662a] transition-[width] duration-100 ease-out shadow-[0_0_8px_rgba(232,102,42,0.6)]"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
       {/* Sticky Header */}
       <header className="sticky top-0 z-40 bg-[#fbf8f3]/90 backdrop-blur-md border-b border-[#e8e1d6] transition-all">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex items-center justify-between h-16">
@@ -286,12 +334,22 @@ export default function App() {
               >
                 Get in touch
               </a>
-              <div className="flex gap-4">
+              <div className="flex gap-2">
+                <a 
+                  href={WHATSAPP_LINK}
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-2 text-[#6a6258] hover:text-[#25D366] transition-colors"
+                  aria-label="WhatsApp Contact"
+                  title="Chat on WhatsApp"
+                >
+                  <WhatsAppIcon size={20} />
+                </a>
                 <a 
                   href="https://github.com/shreeyash2010" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2 text-[#6a6258] hover:text-[#1f1b16]"
+                  className="p-2 text-[#6a6258] hover:text-[#1f1b16] transition-colors"
                   aria-label="GitHub Profile"
                 >
                   <Github size={20} />
@@ -300,7 +358,7 @@ export default function App() {
                   href="https://www.linkedin.com/in/shreeyash-mali-13497b22b/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2 text-[#6a6258] hover:text-[#1f1b16]"
+                  className="p-2 text-[#6a6258] hover:text-[#1f1b16] transition-colors"
                   aria-label="LinkedIn Profile"
                 >
                   <Linkedin size={20} />
@@ -335,7 +393,7 @@ export default function App() {
               Hi, I'm Shreeyash. I design and develop websites and web apps from the first sketch to the final deploy with clean architecture and responsive craft.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
               <a 
                 href="#contact" 
                 className="inline-flex items-center justify-center bg-[#e8662a] text-white border-2 border-[#e8662a] rounded-full px-7 py-3 font-bold hover:bg-[#c9501a] hover:border-[#c9501a] transition-all shadow-sm hover:shadow active:scale-95"
@@ -347,6 +405,18 @@ export default function App() {
                 className="inline-flex items-center justify-center bg-transparent text-[#1f1b16] border-2 border-[#1f1b16] rounded-full px-7 py-3 font-bold hover:bg-[#1f1b16] hover:text-[#fbf8f3] transition-all active:scale-95"
               >
                 See my work
+              </a>
+
+              {/* Direct WhatsApp contact button */}
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-bold text-[#1f1b16] hover:text-white bg-white hover:bg-[#25D366] border border-[#e8e1d6] hover:border-[#25D366] px-4 py-3 rounded-full transition-all shadow-2xs group active:scale-95"
+                title="Chat with Shreeyash on WhatsApp (+91 97307 17210)"
+              >
+                <WhatsAppIcon size={16} className="text-[#25D366] group-hover:text-white transition-colors" />
+                <span>WhatsApp</span>
               </a>
 
               {/* Quick copy email tool */}
@@ -369,6 +439,16 @@ export default function App() {
               </div>
               <span className="text-[#e8e1d6] hidden sm:inline">|</span>
               <span className="text-[#1f1b16] font-medium">{CONTACT_EMAIL}</span>
+              <span className="text-[#e8e1d6] hidden sm:inline">|</span>
+              <a 
+                href={WHATSAPP_LINK}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[#1f1b16] hover:text-[#25D366] font-medium transition-colors"
+              >
+                <WhatsAppIcon size={13} className="text-[#25D366]" />
+                <span>+91 97307 17210</span>
+              </a>
             </div>
           </div>
 
@@ -653,7 +733,7 @@ export default function App() {
               {filteredProjects.map((project) => (
                 <article
                   key={project.id}
-                  className="group relative bg-white border border-[#e8e1d6] rounded-xl p-7 pt-9 transition-all duration-200 hover:-translate-y-1 hover:border-[#e8662a] hover:shadow-md overflow-hidden flex flex-col justify-between"
+                  className="group relative bg-white border border-[#e8e1d6] rounded-xl p-7 pt-9 transition-all duration-300 ease-out hover:scale-[1.025] hover:-translate-y-1.5 hover:border-[#e8662a] hover:shadow-xl overflow-hidden flex flex-col justify-between"
                 >
                   {/* Accent Top Border Fill on Hover */}
                   <div 
@@ -707,22 +787,22 @@ export default function App() {
                   </div>
 
                   <div className="mt-6 pt-5 border-t border-[#e8e1d6]/80 flex flex-col gap-3">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2">
                       <a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-bold text-[#c9501a] hover:underline"
+                        className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#c9501a] bg-[#fdf5ee] hover:bg-[#c9501a] hover:text-white border border-[#f5ba90]/70 hover:border-[#c9501a] px-3.5 py-2 rounded-lg transition-colors duration-200 ease-in-out shadow-2xs group/btn"
                       >
-                        <Github size={15} />
+                        <Github size={15} className="transition-transform duration-200 group-hover/btn:scale-110" />
                         <span>Source Code</span>
-                        <ArrowUpRight size={14} />
+                        <ArrowUpRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                       </a>
 
                       <button
                         type="button"
                         onClick={() => setSelectedProject(project)}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#6a6258] hover:text-[#1f1b16] bg-[#fbf8f3] hover:bg-white border border-[#e8e1d6] px-2.5 py-1.5 rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#6a6258] hover:text-[#1f1b16] bg-[#fbf8f3] hover:bg-white border border-[#e8e1d6] hover:border-[#1f1b16] px-2.5 py-2 rounded-lg transition-colors duration-200 shadow-2xs"
                       >
                         <Eye size={13} />
                         <span>Features</span>
@@ -734,9 +814,9 @@ export default function App() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-[#1f1b16] bg-[#fde8d8] hover:bg-[#f8d3b8] px-3 py-1.5 rounded-lg transition-colors border border-[#f5ba90]"
+                        className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-[#1f1b16] bg-[#fde8d8] hover:bg-[#e8662a] hover:text-white px-3.5 py-2 rounded-lg transition-colors duration-200 ease-in-out border border-[#f5ba90] hover:border-[#e8662a] shadow-2xs group/live"
                       >
-                        <ExternalLink size={13} className="text-[#e8662a]" />
+                        <ExternalLink size={13} className="text-[#e8662a] group-hover/live:text-white transition-colors duration-200" />
                         <span>Visit Live Site</span>
                       </a>
                     )}
@@ -826,8 +906,18 @@ export default function App() {
                 Have a project or a question? Send me a message and I'll reply promptly.
               </p>
 
-              {/* Direct Quick Contact Buttons with NEW EMAIL */}
+              {/* Direct Quick Contact Buttons */}
               <div className="flex flex-wrap gap-3 mb-8">
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm px-5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow active:scale-95 group"
+                >
+                  <WhatsAppIcon size={18} className="transition-transform group-hover:scale-110" />
+                  <span>Chat on WhatsApp</span>
+                </a>
+
                 <button
                   type="button"
                   onClick={copyEmail}
@@ -995,7 +1085,7 @@ export default function App() {
                   href={selectedProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1f1b16] hover:text-[#e8662a]"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1f1b16] hover:text-[#e8662a] transition-colors duration-200"
                 >
                   <Globe size={14} />
                   <span>Live Site</span>
@@ -1006,7 +1096,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setSelectedProject(null)}
-                  className="px-4 py-2 text-sm font-semibold text-[#6a6258] hover:text-[#1f1b16]"
+                  className="px-4 py-2 text-sm font-semibold text-[#6a6258] hover:text-[#1f1b16] transition-colors duration-200"
                 >
                   Close
                 </button>
@@ -1014,7 +1104,7 @@ export default function App() {
                   href={selectedProject.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-[#e8662a] hover:bg-[#c9501a] text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-[#e8662a] hover:bg-[#c9501a] text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors duration-200 shadow-2xs hover:shadow-sm"
                 >
                   <span>View Repository</span>
                   <ExternalLink size={15} />
@@ -1166,6 +1256,17 @@ export default function App() {
             >
               <Github size={15} />
               <span>GitHub</span>
+            </a>
+            <span>·</span>
+            <a 
+              href={WHATSAPP_LINK}
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-[#25D366] hover:underline flex items-center gap-1.5 transition-colors"
+              title="Chat on WhatsApp"
+            >
+              <WhatsAppIcon size={15} />
+              <span>WhatsApp</span>
             </a>
             <span>·</span>
             <a 
