@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { VisitorCounter } from './components/VisitorCounter';
+import { ToastContainer, ToastMessage, ToastType } from './components/Toast';
 import { saveContactMessage } from './firebase';
 import logoIcon from './assets/logo-icon-mali.svg';
 import logoWordmark from './assets/logo-wordmark-mali.svg';
@@ -30,7 +31,26 @@ import {
   MonitorSmartphone
 } from 'lucide-react';
 
-const WHATSAPP_LINK = 'https://wa.me/919730717210?text=hello,%20i%20am%20reaching%20out%20from%20your%20link';
+const WHATSAPP_PHONE = '919730717210';
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent('hello, i am reaching out from your link')}`;
+
+export function createWhatsAppEnquiryUrl(name: string, email: string, message: string, context?: string): string {
+  const intro = context 
+    ? `Hello Shreeyash, I would like to make an enquiry regarding *${context}* with Mali Studios:`
+    : `Hello Shreeyash, I would like to make an enquiry with Mali Studios:`;
+
+  const details = [
+    intro,
+    '',
+    `👤 *Name:* ${name}`,
+    `📧 *Email:* ${email}`,
+    `💬 *Enquiry:* ${message}`,
+    '',
+    `🌐 Sent from Mali Studios (mali-studios.vercel.app)`
+  ].join('\n');
+
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(details)}`;
+}
 
 function WhatsAppIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
   return (
@@ -161,11 +181,22 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Toast notification state
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  const addToast = useCallback((message: string, type: ToastType = 'success', title?: string, duration = 4000) => {
+    const id = Date.now().toString() + Math.random().toString(36).substring(2, 6);
+    setToasts((prev) => [...prev, { id, message, type, title, duration }]);
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
   // Contact form state
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formMessage, setFormMessage] = useState('');
-  const [formStatus, setFormStatus] = useState<{ text: string; isError: boolean } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // New official email as requested
@@ -175,45 +206,103 @@ export default function App() {
     navigator.clipboard.writeText(CONTACT_EMAIL);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
+    addToast(CONTACT_EMAIL, 'success', 'Copied to Clipboard');
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendWhatsAppEnquiry = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     const name = formName.trim();
     const email = formEmail.trim();
     const message = formMessage.trim();
 
     if (!name || !message || !/^\S+@\S+\.\S+$/.test(email)) {
-      setFormStatus({
-        text: 'Please fill in your name, a valid email, and your message.',
-        isError: true
-      });
+      addToast(
+        'Please enter your name, a valid email address, and your enquiry message.',
+        'error',
+        'Incomplete Details'
+      );
       return;
     }
 
     setIsSubmitting(true);
-    setFormStatus({
-      text: 'Saving your message to Mali Studios and preparing email...',
-      isError: false
-    });
+    addToast(
+      'Connecting to Mali Studios database and launching WhatsApp...',
+      'info',
+      'Sending Enquiry'
+    );
 
-    saveContactMessage(name, email, message)
-      .catch((err) => console.warn('Saved fallback notice:', err))
-      .finally(() => {
-        setFormStatus({
-          text: 'Message received! Opening your email client to send direct copy...',
-          isError: false
-        });
-        const subject = encodeURIComponent(`Mali Studios inquiry from ${name}`);
-        const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
-        setTimeout(() => {
-          window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-          setIsSubmitting(false);
-          setFormName('');
-          setFormEmail('');
-          setFormMessage('');
-        }, 500);
-      });
+    try {
+      await saveContactMessage(name, email, `[WhatsApp Enquiry] ${message}`);
+    } catch (err) {
+      console.warn('Saved fallback notice:', err);
+    }
+
+    const waUrl = createWhatsAppEnquiryUrl(name, email, message);
+
+    addToast(
+      'Enquiry saved! Opening WhatsApp chat with pre-filled details.',
+      'success',
+      'WhatsApp Launched'
+    );
+
+    // Launch WhatsApp
+    window.open(waUrl, '_blank') || (window.location.href = waUrl);
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setFormName('');
+      setFormEmail('');
+      setFormMessage('');
+    }, 1200);
+  };
+
+  const handleSendEmailEnquiry = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const name = formName.trim();
+    const email = formEmail.trim();
+    const message = formMessage.trim();
+
+    if (!name || !message || !/^\S+@\S+\.\S+$/.test(email)) {
+      addToast(
+        'Please enter your name, a valid email address, and your enquiry message.',
+        'error',
+        'Incomplete Details'
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+    addToast(
+      'Saving your message and preparing email client...',
+      'info',
+      'Preparing Email'
+    );
+
+    try {
+      await saveContactMessage(name, email, `[Email Enquiry] ${message}`);
+    } catch (err) {
+      console.warn('Saved fallback notice:', err);
+    }
+
+    addToast(
+      'Message saved! Opening email client to send copy directly to Shreeyash Mali.',
+      'success',
+      'Email Ready'
+    );
+
+    const subject = encodeURIComponent(`Mali Studios inquiry from ${name}`);
+    const body = encodeURIComponent(`${message}\n\nFrom: ${name}\nEmail: ${email}`);
+    setTimeout(() => {
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      setIsSubmitting(false);
+      setFormName('');
+      setFormEmail('');
+      setFormMessage('');
+    }, 500);
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    handleSendWhatsAppEnquiry(e);
   };
 
   const filteredProjects = activeCategory === 'all' 
@@ -754,7 +843,7 @@ export default function App() {
               {filteredProjects.map((project) => (
                 <article
                   key={project.id}
-                  className="group relative bg-white border border-[#e8e1d6] rounded-xl p-7 pt-9 transition-all duration-300 ease-out hover:scale-[1.025] hover:-translate-y-1.5 hover:border-[#e8662a] hover:shadow-xl overflow-hidden flex flex-col justify-between"
+                  className="group relative bg-white border border-[#e8e1d6] rounded-2xl p-7 pt-9 shadow-sm transition-all duration-300 ease-out will-change-transform hover:scale-[1.03] hover:-translate-y-2 hover:border-[#e8662a]/80 hover:shadow-2xl hover:shadow-[#e8662a]/10 overflow-hidden flex flex-col justify-between"
                 >
                   {/* Accent Top Border Fill on Hover */}
                   <div 
@@ -1008,24 +1097,27 @@ export default function App() {
                   />
                 </div>
 
-                <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3">
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="inline-flex items-center justify-center gap-2 bg-[#e8662a] hover:bg-[#c9501a] text-white font-bold px-8 py-3 rounded-full transition-all disabled:opacity-60 active:scale-95 shadow-md"
+                    className="inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-white font-bold px-7 py-3 rounded-full transition-all disabled:opacity-60 shadow-md hover:shadow-lg group"
+                    title="Send your enquiry directly to WhatsApp (+91 97307 17210)"
                   >
-                    <Send size={16} />
-                    <span>{isSubmitting ? 'Preparing...' : 'Send message'}</span>
+                    <WhatsAppIcon size={18} className="transition-transform group-hover:scale-110" />
+                    <span>{isSubmitting ? 'Opening WhatsApp...' : 'Send Enquiry to WhatsApp'}</span>
                   </button>
 
-                  {formStatus && (
-                    <p 
-                      role="status" 
-                      className={`text-sm ${formStatus.isError ? 'text-[#ff9a8f]' : 'text-[#8ee0a1]'}`}
-                    >
-                      {formStatus.text}
-                    </p>
-                  )}
+                  <button 
+                    type="button" 
+                    onClick={handleSendEmailEnquiry}
+                    disabled={isSubmitting}
+                    className="inline-flex items-center justify-center gap-2 bg-[#2b261f] hover:bg-[#383127] border border-[#41392f] hover:border-[#e8662a]/60 text-[#f6efe4] font-medium px-6 py-3 rounded-full transition-all disabled:opacity-60 active:scale-95 text-sm"
+                    title="Send via Email client instead"
+                  >
+                    <Mail size={16} className="text-[#e8662a]" />
+                    <span>Send via Email</span>
+                  </button>
                 </div>
               </form>
             </div>
@@ -1113,11 +1205,21 @@ export default function App() {
                 </a>
               ) : <div />}
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <a
+                  href={`https://wa.me/919730717210?text=${encodeURIComponent(`Hello Shreeyash, I'm enquiring about a project similar to *${selectedProject.title}* via Mali Studios.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs sm:text-sm font-bold px-3.5 sm:px-4 py-2 rounded-full transition-all shadow-xs hover:shadow-sm active:scale-95 group/wa"
+                  title="Enquire about this project directly on WhatsApp"
+                >
+                  <WhatsAppIcon size={15} className="transition-transform group-hover/wa:scale-110" />
+                  <span>Enquire on WhatsApp</span>
+                </a>
                 <button
                   type="button"
                   onClick={() => setSelectedProject(null)}
-                  className="px-4 py-2 text-sm font-semibold text-[#6a6258] hover:text-[#1f1b16] transition-colors duration-200"
+                  className="px-3 py-2 text-sm font-semibold text-[#6a6258] hover:text-[#1f1b16] transition-colors duration-200"
                 >
                   Close
                 </button>
@@ -1125,10 +1227,10 @@ export default function App() {
                   href={selectedProject.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-[#e8662a] hover:bg-[#c9501a] text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors duration-200 shadow-2xs hover:shadow-sm"
+                  className="inline-flex items-center gap-1.5 bg-[#e8662a] hover:bg-[#c9501a] text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-full transition-colors duration-200 shadow-2xs hover:shadow-sm"
                 >
-                  <span>View Repository</span>
-                  <ExternalLink size={15} />
+                  <span>Repository</span>
+                  <ExternalLink size={14} />
                 </a>
               </div>
             </div>
@@ -1327,6 +1429,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      <ToastContainer toasts={toasts} onDismiss={removeToast} />
       <Analytics />
       <SpeedInsights />
     </div>

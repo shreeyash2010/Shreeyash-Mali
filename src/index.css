@@ -88,3 +88,14 @@ body {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* Toast progress bar animation */
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
