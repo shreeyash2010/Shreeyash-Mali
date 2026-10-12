@@ -46,7 +46,7 @@ export function createWhatsAppEnquiryUrl(name: string, email: string, message: s
     `📧 *Email:* ${email}`,
     `💬 *Enquiry:* ${message}`,
     '',
-    `🌐 Sent from Mali Studios (mali-studios.vercel.app)`
+    `🌐 Sent from Mali Studios (mali-web-studios.vercel.app)`
   ].join('\n');
 
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(details)}`;
@@ -427,25 +427,28 @@ export default function App() {
             >
               Brand Kit (New Logos)
             </button>
-            <div className="pt-2 border-t border-[#e8e1d6]/60 flex items-center justify-between">
-              <a 
-                href="#contact" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="inline-block border-[1.5px] border-[#1f1b16] px-5 py-2 rounded-full font-bold text-sm bg-[#1f1b16] text-[#fbf8f3]"
-              >
-                Get in touch
-              </a>
-              <div className="flex gap-2">
+            <div className="pt-3 border-t border-[#e8e1d6]/60 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <a 
+                  href="#contact" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-block border-[1.5px] border-[#1f1b16] px-4 py-2 rounded-full font-bold text-sm bg-[#1f1b16] text-[#fbf8f3]"
+                >
+                  Get in touch
+                </a>
                 <a 
                   href={WHATSAPP_LINK}
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2 text-[#6a6258] hover:text-[#25D366] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold text-[#1f1b16] bg-[#25D366]/15 hover:bg-[#25D366] hover:text-white transition-colors"
                   aria-label="WhatsApp Contact"
                   title="Chat on WhatsApp"
                 >
-                  <WhatsAppIcon size={20} />
+                  <WhatsAppIcon size={14} className="text-[#25D366]" />
+                  <span>WhatsApp</span>
                 </a>
+              </div>
+              <div className="flex gap-2">
                 <a 
                   href="https://github.com/shreeyash2010" 
                   target="_blank" 
@@ -1376,7 +1379,7 @@ export default function App() {
       <footer className="border-t-4 border-[#e8662a] bg-[#fbf8f3] py-8 text-[#6a6258] text-sm">
         <div className="w-[min(1080px,100%-40px)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
-            <p>© {new Date().getFullYear()} Mali Studio · Directed by Shreeyash Mali · <a href="https://mali-studios.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">mali-studios.vercel.app</a></p>
+            <p>© {new Date().getFullYear()} Mali Studio · Directed by Shreeyash Mali · <a href="https://mali-web-studios.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#1f1b16] hover:underline font-medium">mali-web-studios.vercel.app</a></p>
             <VisitorCounter />
           </div>
           <div className="flex items-center gap-6">

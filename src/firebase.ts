@@ -21,16 +21,22 @@ export const db = firebaseConfig.firestoreDatabaseId
 const ANALYTICS_COLLECTION = 'analytics';
 const VISITOR_DOC_ID = 'visitor_counter';
 
+let sessionIncrementStarted = false;
+
 /**
  * Increments the visitor_count field on mount (deduplicated per session)
- * and listens for real-time changes to visitor_count.
+ * and listens for real-time changes to visitor_count in Firebase Firestore.
  */
 export function subscribeToVisitorCount(callback: (count: number) => void): () => void {
   const counterDoc = doc(db, ANALYTICS_COLLECTION, VISITOR_DOC_ID);
   const sessionKey = 'portfolio_counted_session';
-  const hasCounted = sessionStorage.getItem(sessionKey);
+  const hasCounted = typeof window !== 'undefined' && sessionStorage.getItem(sessionKey);
 
-  if (!hasCounted) {
+  if (!hasCounted && !sessionIncrementStarted) {
+    sessionIncrementStarted = true;
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(sessionKey, 'true');
+    }
     const incrementCounter = async () => {
       try {
         const snap = await getDoc(counterDoc);
@@ -45,7 +51,6 @@ export function subscribeToVisitorCount(callback: (count: number) => void): () =
             updatedAt: new Date().toISOString()
           });
         }
-        sessionStorage.setItem(sessionKey, 'true');
       } catch (err) {
         console.warn('Visitor count increment notice:', err);
       }
