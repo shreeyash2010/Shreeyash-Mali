@@ -1,0 +1,6 @@
+# Robots.txt for Mali Studios
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://mali-web-studios.vercel.app/sitemap.xml

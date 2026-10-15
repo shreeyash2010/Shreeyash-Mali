@@ -1,24 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <clipPath id="squircleClip">
-      <rect x="15" y="15" width="570" height="570" rx="145" />
-    </clipPath>
+    <linearGradient id="maliBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f1c19"/>
+      <stop offset="100%" stop-color="#12100e"/>
+    </linearGradient>
+    <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7a3d"/>
+      <stop offset="100%" stop-color="#e0531c"/>
+    </linearGradient>
+    <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
   </defs>
 
-  <!-- Dark Charcoal Squircle Background -->
-  <rect x="15" y="15" width="570" height="570" rx="145" fill="#1b1916"/>
+  <!-- Deep Obsidian Squircle Background with subtle border for high contrast on dark & light chrome -->
+  <rect x="16" y="16" width="480" height="480" rx="118" fill="url(#maliBg)" stroke="#38322b" stroke-width="8"/>
 
-  <g id="m-emblem">
-    <!-- Left Stem (Cream/White) -->
-    <path d="M 195 165 L 195 435" stroke="#fcfaf6" stroke-width="58" stroke-linecap="round"/>
+  <!-- Iconic M Emblem -->
+  <g filter="url(#subtleGlow)">
+    <!-- Left Pillar (Warm Cream White) -->
+    <path d="M 126 122 L 126 390" stroke="#fcfaf6" stroke-width="56" stroke-linecap="round"/>
 
-    <!-- Right Stem (Cream/White) -->
-    <path d="M 405 165 L 405 435" stroke="#fcfaf6" stroke-width="58" stroke-linecap="round"/>
+    <!-- Right Pillar (Warm Cream White) -->
+    <path d="M 386 122 L 386 390" stroke="#fcfaf6" stroke-width="56" stroke-linecap="round"/>
 
-    <!-- Center Chevron V (Terracotta Orange) -->
-    <path d="M 195 165 L 300 330 L 405 165" fill="none" stroke="#e05a26" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Center Chevron V (Vibrant Terracotta) -->
+    <path d="M 126 122 L 256 280 L 386 122" fill="none" stroke="url(#terracottaGrad)" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Accent Dot (Terracotta Orange) -->
-    <circle cx="452" cy="452" r="29" fill="#e05a26"/>
+    <!-- Terracotta Accent Dot -->
+    <circle cx="420" cy="410" r="26" fill="url(#terracottaGrad)"/>
   </g>
 </svg>
