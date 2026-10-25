@@ -113,7 +113,7 @@ const EXTRACTED_PROJECTS: Project[] = [
     tags: ['HTML5', 'Bootstrap 5', 'JavaScript', 'Responsive UI', 'Vercel'],
     metrics: 'Live Production Client Site',
     githubUrl: 'https://github.com/shreeyash2010/Mohalkar_Architects_Planners',
-    liveUrl: 'https://mohalkar-architects-planners-9a3t.vercel.app/',
+    liveUrl: 'https://mohalkar-architects-planners.vercel.app/',
     keyFeatures: [
       'Multi-page architecture showcase with deep service breakdowns',
       'Interactive project filtering across urban design and commercial domains',
