@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "destination": "https://mali-web-studios.vercel.app/$1",
+      "destination": "https://mali-web-studios.vercel.app/",
       "statusCode": 301
     }
   ]
