@@ -1,14 +1,25 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [
         {
           "type": "host",
           "value": "mali-studios.vercel.app"
         }
       ],
-      "destination": "https://mali-web-studios.vercel.app/:path*",
+      "destination": "https://mali-web-studios.vercel.app/",
+      "statusCode": 301
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "mali-studios.vercel.app"
+        }
+      ],
+      "destination": "https://mali-web-studios.vercel.app/$1",
       "statusCode": 301
     }
   ],
